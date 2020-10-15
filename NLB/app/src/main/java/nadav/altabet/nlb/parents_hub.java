@@ -57,5 +57,11 @@ public class parents_hub extends AppCompatActivity {
                 startActivity(new Intent(parents_hub.this, parents_profile.class));
             }
         });
+        children.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(parents_hub.this,parents_children.class));
+            }
+        });
     }
 }
