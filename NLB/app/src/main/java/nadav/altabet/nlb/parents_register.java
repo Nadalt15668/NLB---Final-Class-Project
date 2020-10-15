@@ -1,0 +1,278 @@
+package nadav.altabet.nlb;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
+public class parents_register extends AppCompatActivity {
+
+    private ProgressDialog prg;
+    private EditText edit_email,edit_pass,edit_fst,edit_lst,edit_id,edit_address,edit_city,edit_phone;
+    private Spinner home_branch;
+    private ImageView profile;
+    private Button btnPick,btnSave,btnDate;
+    private RadioButton female;
+    private static Uri selectedPic = null;
+    private static String picName = "";
+    private static boolean chosen = false;
+    private Calendar calendar = null;
+    private int day,month,year,chosenYear,chosenMonth,chosenDay;
+    public static ArrayList<String> branchName = new ArrayList<>();
+    //--------------------------------------------------------------------------
+    private FirebaseDatabase database = null;
+    private DatabaseReference databaseReference = null;
+    private FirebaseAuth firebaseAuth = null;
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    //--------------------------------------------------------------------------
+    private void addPic()
+    {
+        StorageReference PicturesStorage = storageReference.child("Profiles/"+picName);
+        PicturesStorage.putFile(selectedPic).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(parents_register.this, "Profile Picture Has Been Added", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(parents_register.this,parents_login.class));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(parents_register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && data!= null)
+        {
+            chosen = true;
+            selectedPic = data.getData();
+            profile.setImageURI(selectedPic);
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedPic,filePathColumn,null,null,null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            picName = cursor.getString(columnIndex);
+            picName = picName.substring(picName.lastIndexOf('/')+1);
+        }
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
+    public boolean checkingFields()
+    {
+        return edit_email.getText().toString() != null && edit_address.getText().toString() != null && edit_city.getText().toString() != null &&
+                edit_fst.getText().toString() != null && edit_id.getText().toString() != null && edit_lst.getText().toString() != null &&
+                edit_pass.getText().toString() != null && edit_phone.getText().toString() != null && home_branch.getSelectedItem() != null;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_parents_register);
+        edit_email = findViewById(R.id.emailEditTxt);
+        edit_pass = findViewById(R.id.passwordEditTxt);
+        edit_fst = findViewById(R.id.fstNameEditTxt);
+        edit_lst = findViewById(R.id.lstNameEditTxt);
+        edit_id = findViewById(R.id.idEditTxt);
+        edit_address = findViewById(R.id.addressEditTxt);
+        edit_city = findViewById(R.id.cityEditTxt);
+        edit_phone = findViewById(R.id.phoneEditTxt);
+        home_branch = findViewById(R.id.homeBranch);
+        profile = findViewById(R.id.profile);
+        female = findViewById(R.id.femaleRadiob);
+        btnDate = findViewById(R.id.btnDate);
+        btnPick = findViewById(R.id.btnPick);
+        btnSave = findViewById(R.id.btnSave);
+
+        prg = new ProgressDialog(parents_register.this);
+        prg.setTitle("Loading Data");
+        prg.setMessage("Saving User Information");
+        prg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prg.setCancelable(false);
+
+        calendar = Calendar.getInstance();
+        day  = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH);
+        year = calendar.get(Calendar.YEAR);
+
+        branchName.add("עכו");
+        branchName.add("חיפה קריית אליעזר");
+        branchName.add("חיפה להקה");
+        branchName.add("עפולה - בקרוב");
+        branchName.add("טירת הכרמל - בקרוב");
+        branchName.add("פתח תקווה יוספטל");
+        branchName.add("פתח תקווה בייליס");
+        branchName.add("אריאל");
+        branchName.add("ראשון מערב");
+        branchName.add("ראשון מזרח");
+        branchName.add("ראשון מרכז");
+        branchName.add("מודיעין");
+        branchName.add("שמעה");
+        branchName.add("ליבנה");
+        branchName.add("טנא עומרים");
+        branchName.add("אשכולות");
+        branchName.add("גן יבנה מכבים");
+        branchName.add("גן יבנה מושבה");
+        branchName.add("חולון");
+        branchName.add("בת ים");
+        branchName.add("עקרון");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(parents_register.this, android.R.layout.simple_list_item_1, branchName);
+        home_branch.setAdapter(adapter);
+
+        Permission permission = new Permission(parents_register.this);
+        permission.verifyPermissions();
+
+        //----------------------------------------------------------------------
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("Parents");
+        firebaseAuth = FirebaseAuth.getInstance();
+        //----------------------------------------------------------------------
+        btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(parents_register.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        btnDate.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                        chosenDay = dayOfMonth;
+                        chosenMonth = month+1;
+                        chosenYear = year;
+                    }
+                },year,month,day);
+                datePickerDialog.show();
+            }
+        });
+        btnPick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI),1);
+            }
+        });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prg.show();
+                if (checkingFields())
+                {
+                    final String email = edit_email.getText().toString();
+                    final String password = edit_pass.getText().toString();
+                    final String fstName = edit_fst.getText().toString();
+                    final String lstName = edit_lst.getText().toString();
+                    final String id = edit_id.getText().toString();
+                    final String address = edit_address.getText().toString();
+                    final String city = edit_city.getText().toString();
+                    final String phone = edit_phone.getText().toString();
+                    final String type = "parent";
+                    final String branchName = home_branch.getSelectedItem().toString();
+                    final Date dateOfBirth = new Date(chosenYear, chosenMonth, chosenDay);
+                    if (dateOfBirth.checkForAbove18(new Date(year, month, day)) > 18) {
+                        String pic = "nlb_logo_removedbg.png";
+                        if (chosen)
+                            pic = picName;
+                        final String finalPic = pic;
+                        String gender = "זכר";
+                        if (female.isChecked())
+                            gender = "נקבה";
+                        final String finalGender = gender;
+                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(parents_register.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                                    String UID = currentUser.getUid();
+                                    User user = new User(email, fstName, lstName, id, city, address, phone, finalPic, dateOfBirth, finalGender, type, branchName);
+                                    databaseReference.child(UID).setValue(user).addOnCompleteListener(parents_register.this, new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                prg.dismiss();
+                                                Toast.makeText(parents_register.this, "ההרשמה הסתיימה בהצלחה!", Toast.LENGTH_SHORT).show();
+                                                if (chosen)
+                                                    addPic();
+                                                startActivity(new Intent(parents_register.this, parents_login.class));
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(parents_register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                            }
+                        }).addOnFailureListener(parents_register.this, new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                prg.dismiss();
+                                Toast.makeText(parents_register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        prg.dismiss();
+                        Toast.makeText(parents_register.this, "אין באפשרותך ליצור משתמש מתחת לגיל 18", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    prg.dismiss();
+                    Toast.makeText(parents_register.this, "אנא מלא את כל השדות לפני סיום ההרשמה", Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+        });
+    }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/nlb_bground"
+    android:id="@+id/wel_scr"
+    tools:context=".welcome_screen">
+
+    <ImageButton
+        android:id="@+id/nlb_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:background="@color/blank"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/nlb_logo_removedbg" />
+
+    <Button
+        android:id="@+id/parents_login"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_design"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:text="@string/כניסת_הורים"
+        android:textStyle="bold"
+        android:fontFamily="@font/ozrad_bold"
+        android:textSize="30dp"
+        />
+
+    <Button
+        android:id="@+id/coordinators_login"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_design"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:text="@string/כניסת_רכזים"
+        android:fontFamily="@font/ozrad_bold"
+        android:textStyle="bold"
+        android:textSize="30dp"/>
+
+</LinearLayout>

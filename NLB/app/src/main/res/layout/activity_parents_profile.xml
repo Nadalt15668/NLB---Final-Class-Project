@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/nlb_bground"
+    android:orientation="vertical"
+    tools:context=".parents_profile">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/ozrad_bold"
+        android:gravity="center_horizontal"
+        android:text="@string/פרופיל"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ozrad_bold"
+            android:text="שם פרטי ומשפחה"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/profile_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ozrad_bold"
+            android:layout_marginTop="10dp"
+            android:gravity="right"
+            android:text="מספר זהות"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/profile_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ozrad_bold"
+            android:text="אימייל"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/profile_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ozrad_bold"
+            android:text="כתובת מגורים"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/profile_home_branch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ozrad_bold"
+            android:text="סניף הבית"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/profile_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ozrad_bold"
+            android:text="מספר טלפון"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/profile_img"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/nlb_logo_removedbg" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/profile_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ozrad_bold"
+                android:text="מין"
+                android:gravity="right"
+                android:textColor="@android:color/white"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/profile_date_of_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ozrad_bold"
+                android:text="תאריך לידה"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="10dp"
+                android:textSize="30dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnUpdate"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_design"
+        android:fontFamily="@font/ozrad_bold"
+        android:text="@string/עדכון"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+</LinearLayout>
