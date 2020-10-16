@@ -11,7 +11,7 @@
     <string name="עיר_מגורים">עיר מגורים:</string>
     <string name="סניף_הבית">סניף הבית:</string>
     <string name="רחוב_ומספר">רחוב ומספר:</string>
-    <string name="מס_טלפון">מס\' טלפון:</string>
+    <string name="מס_טלפון">מספר טלפון:</string>
     <string name="בחירת_תמונה">בחר תמונה</string>
     <string name="זכר">זכר</string>
     <string name="נקבה">נקבה</string>
@@ -25,5 +25,8 @@
     <string name="ילדים">הילדים שלי</string>
     <string name="התנתקות">התנתקות</string>
     <string name="עדכון">עדכון פרופיל</string>
-    <string name="הוסף_ילד">הוספת ילד</string>
+    <string name="הוסף_ילד">הוסף ילד</string>
+    <string name="כיתה">כיתה:</string>
+    <string name="ילד">ילד</string>
+    <string name="ילדה">ילדה</string>
 </resources>
