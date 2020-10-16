@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -29,8 +30,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -57,6 +61,7 @@ public class parents_register extends AppCompatActivity {
     private DatabaseReference databaseReference = null;
     private FirebaseAuth firebaseAuth = null;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    private final DatabaseReference branchReference = FirebaseDatabase.getInstance().getReference("Branches");
     //--------------------------------------------------------------------------
     private void addPic()
     {
@@ -143,30 +148,26 @@ public class parents_register extends AppCompatActivity {
         month = calendar.get(Calendar.MONTH);
         year = calendar.get(Calendar.YEAR);
 
-        branchName.add("עכו");
-        branchName.add("חיפה קריית אליעזר");
-        branchName.add("חיפה להקה");
-        branchName.add("עפולה - בקרוב");
-        branchName.add("טירת הכרמל - בקרוב");
-        branchName.add("פתח תקווה יוספטל");
-        branchName.add("פתח תקווה בייליס");
-        branchName.add("אריאל");
-        branchName.add("ראשון מערב");
-        branchName.add("ראשון מזרח");
-        branchName.add("ראשון מרכז");
-        branchName.add("מודיעין");
-        branchName.add("שמעה");
-        branchName.add("ליבנה");
-        branchName.add("טנא עומרים");
-        branchName.add("אשכולות");
-        branchName.add("גן יבנה מכבים");
-        branchName.add("גן יבנה מושבה");
-        branchName.add("חולון");
-        branchName.add("בת ים");
-        branchName.add("עקרון");
+        branchReference.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child: children) {
+                    String branch = child.getValue(String.class);
+                    branchName.add(branch);
+                }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(parents_register.this, android.R.layout.simple_list_item_1, branchName);
-        home_branch.setAdapter(adapter);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(parents_register.this, R.layout.customized_spinner, branchName);
+                home_branch.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         Permission permission = new Permission(parents_register.this);
         permission.verifyPermissions();

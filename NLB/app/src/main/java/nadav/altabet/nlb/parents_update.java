@@ -28,8 +28,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -47,19 +50,20 @@ public class parents_update extends AppCompatActivity {
     private RadioButton male_update, female_update;
     private Button btnPickUpdate, btnDateUpdate, btnUpdate;
     private RadioGroup rdgp;
-    private String mypath="gs://nlb-project-2287b.appspot.com";  // Image Path
     private int day,month,year,chosenYear = Client.getCurrentUser().getDate_of_birth().getYear(),chosenMonth = Client.getCurrentUser().getDate_of_birth().getMonth(),
             chosenDay = Client.getCurrentUser().getDate_of_birth().getDay();
     private ArrayList<String> branchName = new ArrayList<>();
-
+    //----------------------------------------------------------
     private static Uri selectedPic = null;
     private static String picName = "";
     private static boolean chosen = false;
-
-    private FirebaseDatabase database = null;
+    //----------------------------------------------------------
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     private Task<Void> reference=null;
-
+    private final DatabaseReference branchReference = FirebaseDatabase.getInstance().getReference("Branches");
+    private String mypath="gs://nlb-project-2287b.appspot.com";  // Image Path
+    //----------------------------------------------------------
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -168,32 +172,26 @@ public class parents_update extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btnUpdate);
         rdgp = findViewById(R.id.update_rdgp);
 
-        branchName.add("עכו");
-        branchName.add("חיפה קריית אליעזר");
-        branchName.add("חיפה להקה");
-        branchName.add("עפולה - בקרוב");
-        branchName.add("טירת הכרמל - בקרוב");
-        branchName.add("פתח תקווה יוספטל");
-        branchName.add("פתח תקווה בייליס");
-        branchName.add("אריאל");
-        branchName.add("ראשון מערב");
-        branchName.add("ראשון מזרח");
-        branchName.add("ראשון מרכז");
-        branchName.add("מודיעין");
-        branchName.add("שמעה");
-        branchName.add("ליבנה");
-        branchName.add("טנא עומרים");
-        branchName.add("אשכולות");
-        branchName.add("גן יבנה מכבים");
-        branchName.add("גן יבנה מושבה");
-        branchName.add("חולון");
-        branchName.add("בת ים");
-        branchName.add("עקרון");
+        branchReference.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child: children) {
+                    String branch = child.getValue(String.class);
+                    branchName.add(branch);
+                }
 
-        database = FirebaseDatabase.getInstance();
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(parents_update.this, R.layout.customized_spinner, branchName);
+                update_home_branch.setAdapter(adapter);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(parents_update.this, android.R.layout.simple_list_item_1, branchName);
-        update_home_branch.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         update_address.setText(Client.getCurrentUser().getAddress());
 
