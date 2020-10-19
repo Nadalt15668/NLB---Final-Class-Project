@@ -5,25 +5,29 @@ public class Child {
     private String child_first_name;
     private String child_last_name;
     private Date child_birthdate;
-    private String parent_email;
+    private String parent_UID;
     private String child_ID;
-    private boolean child_gender;
-    private Integer child_class;
+    private String child_gender;
+    private String child_class_letter;
+    private Integer child_class_number;
+    private String child_school;
     private String child_branch;
     private String child_phone;//לא חובה
     private String child_email;//לא חובה
     private String child_profile;//לא חובה
 
-    public Child(String child_first_name, String child_last_name, String parent_ID, Date child_birthdate, String child_ID, boolean child_gender,
-                 Integer child_class, String child_branch, String child_phone, String child_email, String child_profile)
+    public Child(String child_first_name, String child_last_name, String parent_UID, Date child_birthdate, String child_ID, String child_gender,
+                 String child_class_letter, Integer child_class_number, String child_school, String child_branch, String child_phone, String child_email, String child_profile)
     {
         this.child_first_name = child_first_name;
         this.child_last_name = child_last_name;
-        this.parent_email = parent_ID;
+        this.parent_UID = parent_UID;
         this.child_birthdate = child_birthdate;
         this.child_ID = child_ID;
         this.child_gender = child_gender;
-        this.child_class = child_class;
+        this.child_class_letter = child_class_letter;
+        this.child_class_number = child_class_number;
+        this.child_school = child_school;
         this.child_branch = child_branch;
         if(child_phone.equals(null))
             this.child_phone = "";
@@ -39,6 +43,16 @@ public class Child {
             this.child_profile = child_profile;
     }
 
+    public Child() {
+    }
+    //-----------------------------------------------------
+    public String getChild_school() {
+        return child_school;
+    }
+
+    public void setChild_school(String child_school) {
+        this.child_school = child_school;
+    }
     //-----------------------------------------------------
     public String getChild_first_name() {
         return child_first_name;
@@ -56,12 +70,12 @@ public class Child {
         this.child_last_name = child_last_name;
     }
     // -----------------------------------------------------
-    public String getParent_ID() {
-        return parent_email;
+    public String getParent_UID() {
+        return parent_UID;
     }
 
-    public void setParent_ID(String parent_ID) {
-        this.parent_email = parent_ID;
+    public void setParent_UID(String parent_ID) {
+        this.parent_UID = parent_ID;
     }
     // -----------------------------------------------------
     public Date getChild_birthdate() {
@@ -80,20 +94,28 @@ public class Child {
         this.child_ID = child_ID;
     }
     //-----------------------------------------------------
-    public boolean isChild_gender() {
+    public String getChild_gender() {
         return child_gender;
     }
 
-    public void setChild_gender(boolean child_gender) {
+    public void setChild_gender(String child_gender) {
         this.child_gender = child_gender;
     }
     //-----------------------------------------------------
-    public Integer getChild_class() {
-        return child_class;
+    public String getChild_class_letter() {
+        return child_class_letter;
     }
 
-    public void setChild_class(Integer child_class) {
-        this.child_class = child_class;
+    public void setChild_class_letter(String child_class_letter) {
+        this.child_class_letter = child_class_letter;
+    }
+    //-----------------------------------------------------
+    public Integer getChild_class_number() {
+        return child_class_number;
+    }
+
+    public void setChild_class_number(Integer child_class_number) {
+        this.child_class_number = child_class_number;
     }
     //-----------------------------------------------------
     public String getChild_branch() {

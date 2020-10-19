@@ -55,7 +55,7 @@ public class parents_register extends AppCompatActivity {
     private static boolean chosen = false;
     private Calendar calendar = null;
     private int day,month,year,chosenYear,chosenMonth,chosenDay;
-    public static ArrayList<String> branchName = new ArrayList<>();
+    private ArrayList<String> branchName = new ArrayList<>();
     //--------------------------------------------------------------------------
     private FirebaseDatabase database = null;
     private DatabaseReference databaseReference = null;
@@ -69,8 +69,6 @@ public class parents_register extends AppCompatActivity {
         PicturesStorage.putFile(selectedPic).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(parents_register.this, "Profile Picture Has Been Added", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(parents_register.this,parents_login.class));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -138,8 +136,8 @@ public class parents_register extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
 
         prg = new ProgressDialog(parents_register.this);
-        prg.setTitle("Loading Data");
-        prg.setMessage("Saving User Information");
+        prg.setTitle("מעלה נתונים");
+        prg.setMessage("שומר את נתוני המשתמש");
         prg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prg.setCancelable(false);
 

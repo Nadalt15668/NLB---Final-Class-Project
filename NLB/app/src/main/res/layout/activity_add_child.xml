@@ -127,10 +127,29 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/classChild"
-                        android:layout_width="160dp"
+                        android:id="@+id/classNumberChild"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:backgroundTint="@android:color/white"
+                        android:hint="@string/מספר"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@android:color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/classLetterTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ozrad_bold"
+                        android:text="- '"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/classLetterChild"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:backgroundTint="@android:color/white"
                         android:hint="כיתה"
                         android:inputType="textPersonName"
@@ -144,6 +163,34 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/ozrad_bold"
                         android:text="@string/כיתה"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/schoolChild"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@android:color/white"
+                        android:hint="בית ספר"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@android:color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/schoolTxtView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ozrad_bold"
+                        android:text="@string/בית_ספר"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -188,7 +235,7 @@
 
 
                     <Spinner
-                        android:id="@+id/homeBranch"
+                        android:id="@+id/homeBranchChild"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -215,7 +262,7 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/phoneEditTxt"
+                        android:id="@+id/phoneChild"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
