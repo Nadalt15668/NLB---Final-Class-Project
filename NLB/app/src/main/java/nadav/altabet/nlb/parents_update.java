@@ -41,6 +41,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class parents_update extends AppCompatActivity {
 
@@ -50,6 +51,7 @@ public class parents_update extends AppCompatActivity {
     private RadioButton male_update, female_update;
     private Button btnPickUpdate, btnDateUpdate, btnUpdate;
     private RadioGroup rdgp;
+    private Calendar calendar = null;
     private int day,month,year,chosenYear = Client.getCurrentUser().getDate_of_birth().getYear(),chosenMonth = Client.getCurrentUser().getDate_of_birth().getMonth(),
             chosenDay = Client.getCurrentUser().getDate_of_birth().getDay();
     private ArrayList<String> branchName = new ArrayList<>();
@@ -171,6 +173,11 @@ public class parents_update extends AppCompatActivity {
         btnDateUpdate = findViewById(R.id.btnDateUpdate);
         btnUpdate = findViewById(R.id.btnUpdate);
         rdgp = findViewById(R.id.update_rdgp);
+
+        calendar = Calendar.getInstance();
+        day  = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH);
+        year = calendar.get(Calendar.YEAR);
 
         branchReference.addValueEventListener(new ValueEventListener()
         {

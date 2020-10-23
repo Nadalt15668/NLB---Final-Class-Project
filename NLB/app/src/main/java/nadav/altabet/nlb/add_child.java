@@ -137,6 +137,12 @@ public class add_child extends AppCompatActivity {
         btnDateChild = findViewById(R.id.btnDateChild);
         btnPickChild = findViewById(R.id.btnPickChild);
         btnSaveChild = findViewById(R.id.btnSaveChild);
+
+        calendar = Calendar.getInstance();
+        day  = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH);
+        year = calendar.get(Calendar.YEAR);
+
         //----------------------------------------------------------------------
         branchReference.addValueEventListener(new ValueEventListener()
         {

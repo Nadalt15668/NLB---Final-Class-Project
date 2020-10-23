@@ -57,6 +57,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@android:color/white"
                             android:hint="שם פרטי"
+                            android:textColor="@android:color/white"
                             android:inputType="textPersonName"
                             android:textColorHint="@android:color/white"
                             android:textSize="20sp" />
@@ -85,6 +86,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@android:color/white"
                             android:hint="שם משפחה"
+                            android:textColor="@android:color/white"
                             android:inputType="textPersonName"
                             android:textColorHint="@android:color/white"
                             android:textSize="20sp" />
@@ -114,6 +116,7 @@
                             android:layout_marginLeft="10dp"
                             android:backgroundTint="@android:color/white"
                             android:hint="עיר מגורים"
+                            android:textColor="@android:color/white"
                             android:inputType="textPersonName"
                             android:textColorHint="@android:color/white"
                             android:textSize="20sp" />
@@ -145,6 +148,7 @@
                             android:layout_marginLeft="10dp"
                             android:backgroundTint="@android:color/white"
                             android:hint="רחוב ומספר"
+                            android:textColor="@android:color/white"
                             android:inputType="textPersonName"
                             android:textColorHint="@android:color/white"
                             android:textSize="20sp" />
@@ -184,7 +188,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/ozrad_bold"
-                            android:text="@string/סניף_הבית"
+                            android:text="@string/סניף"
                             android:textColor="@android:color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -206,6 +210,7 @@
                             android:backgroundTint="@android:color/white"
                             android:hint="מספר טלפון"
                             android:inputType="number"
+                            android:textColor="@android:color/white"
                             android:textColorHint="@android:color/white"
                             android:textSize="20sp" />
 
@@ -312,7 +317,7 @@
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/button_design"
                 android:fontFamily="@font/ozrad_bold"
-                android:text="@string/סיום"
+                android:text="@string/עדכון"
                 android:textColor="@android:color/white"
                 android:textSize="30sp"
                 android:textStyle="bold" />

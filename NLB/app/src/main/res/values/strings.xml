@@ -9,7 +9,6 @@
     <string name="שם_משפחה">שם משפחה:</string>
     <string name="תעודת_זהות">תעודת זהות:</string>
     <string name="עיר_מגורים">עיר מגורים:</string>
-    <string name="סניף_הבית">סניף הבית:</string>
     <string name="רחוב_ומספר">רחוב ומספר:</string>
     <string name="מס_טלפון">מספר טלפון:</string>
     <string name="בחירת_תמונה">בחר תמונה</string>
@@ -31,4 +30,6 @@
     <string name="ילדה">ילדה</string>
     <string name="מספר">מספר</string>
     <string name="בית_ספר">בית ספר:</string>
+    <string name="סניף">סניף הבית</string>
+
 </resources>
