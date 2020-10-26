@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,6 +34,7 @@ public class parents_children extends AppCompatActivity {
     private ArrayList<Date> arrChildBirthdate = new ArrayList<>();
     private ArrayList<Child> arrChild = new ArrayList<>();
     private FloatingActionButton add;
+    public static int Position = 0;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = database.getReference("Children");
@@ -93,6 +95,14 @@ public class parents_children extends AppCompatActivity {
                 child_cardlsview_adap adap = new child_cardlsview_adap(arrChildFirstName,arrChildLastName, arrChildGender, arrChildClass, arrChildSchool,
                         arrChildID,arrChildBranch,arrChildPhone,arrChildEmail,arrChildProfile,arrChildBirthdate,parents_children.this);
                 child_listview.setAdapter(adap);
+
+                child_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Position = position;
+                        startActivity(new Intent(parents_children.this,children_update.class));
+                    }
+                });
 
             }
 

@@ -30,6 +30,8 @@
     <string name="ילדה">ילדה</string>
     <string name="מספר">מספר</string>
     <string name="בית_ספר">בית ספר:</string>
+    <string name="מחיקה">מחיקה</string>
+    <string name="עדכון_נתונים">עדכון נתונים</string>
     <string name="סניף">סניף הבית</string>
 
 </resources>
