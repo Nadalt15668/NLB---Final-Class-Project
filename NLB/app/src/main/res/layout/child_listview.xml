@@ -28,24 +28,16 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/child_first_name"
+                    android:id="@+id/child_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ozrad_bold"
                     android:text="TextView"
+                    android:gravity="left"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/child_last_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ozrad_bold"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:text="TextView" />
 
                 <TextView
                     android:id="@+id/child_ID"
@@ -53,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ozrad_bold"
                     android:text="TextView"
+                    android:gravity="left"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -63,6 +56,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ozrad_bold"
                     android:text="TextView"
+                    android:gravity="left"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -73,6 +67,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ozrad_bold"
                     android:text="TextView"
+                    android:gravity="left"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -83,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ozrad_bold"
                     android:text="TextView"
+                    android:gravity="left"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -93,6 +89,18 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ozrad_bold"
                     android:text="TextView"
+                    android:gravity="left"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/child_school"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ozrad_bold"
+                    android:text="TextView"
+                    android:gravity="left"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -118,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ozrad_bold"
                     android:text="TextView"
+                    android:gravity="left"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -128,6 +137,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ozrad_bold"
                     android:text="TextView"
+                    android:gravity="left"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />

@@ -26,11 +26,11 @@ import java.util.ArrayList;
 public class child_cardlsview_adap extends BaseAdapter {
     private ArrayList<String> arrChildFirstName = new ArrayList<>();
     private ArrayList<String> arrChildLastName = new ArrayList<>();
-    private ArrayList<String> arrParentEmail = new ArrayList<>();
     private ArrayList<String> arrChildID = new ArrayList<>();
     private ArrayList<String> arrChildGender = new ArrayList<>();
     private ArrayList<String> arrChildBranch = new ArrayList<>();
     private ArrayList<String> arrChildClass = new ArrayList<>();
+    private ArrayList<String> arrChildSchool = new ArrayList<>();
     private ArrayList<String> arrChildPhone = new ArrayList<>();
     private ArrayList<String> arrChildEmail = new ArrayList<>();
     private ArrayList<String> arrChildProfile = new ArrayList<>();
@@ -39,13 +39,15 @@ public class child_cardlsview_adap extends BaseAdapter {
 
     private String mypath="gs://nlb-project-2287b.appspot.com";
 
-    public child_cardlsview_adap(ArrayList<String> arrChildFirstName, ArrayList<String> arrChildLastName, ArrayList<String> arrParentEmail,
+    public child_cardlsview_adap(ArrayList<String> arrChildFirstName, ArrayList<String> arrChildLastName, ArrayList<String> arrChildGender, ArrayList<String> arrChildClass, ArrayList<String> arrChildSchool,
                                  ArrayList<String> arrChildID, ArrayList<String> arrChildBranch, ArrayList<String> arrChildPhone,
                                  ArrayList<String> arrChildEmail, ArrayList<String> arrChildProfile, ArrayList<Date> arrChildBirthdate, Activity ctx) {
         this.arrChildFirstName = arrChildFirstName;
         this.arrChildLastName = arrChildLastName;
-        this.arrParentEmail = arrParentEmail;
+        this.arrChildGender = arrChildGender;
+        this.arrChildClass = arrChildClass;
         this.arrChildID = arrChildID;
+        this.arrChildSchool = arrChildSchool;
         this.arrChildBranch = arrChildBranch;
         this.arrChildPhone = arrChildPhone;
         this.arrChildEmail = arrChildEmail;
@@ -103,11 +105,8 @@ public class child_cardlsview_adap extends BaseAdapter {
 
         View myrow= inflater.inflate(R.layout.child_listview,null,true);
 
-        TextView child_first_name = myrow.findViewById(R.id.child_first_name);
-        child_first_name.setText(this.arrChildFirstName.get(position));
-
-        TextView child_last_name = myrow.findViewById(R.id.child_last_name);
-        child_last_name.setText(this.arrChildLastName.get(position));
+        TextView child_name = myrow.findViewById(R.id.child_name);
+        child_name.setText(this.arrChildFirstName.get(position) + " " + this.arrChildLastName.get(position));
 
         TextView child_ID=myrow.findViewById(R.id.child_ID);
         child_ID.setText(this.arrChildID.get(position));
@@ -121,6 +120,9 @@ public class child_cardlsview_adap extends BaseAdapter {
 
         TextView child_class=myrow.findViewById(R.id.child_class);
         child_class.setText(this.arrChildClass.get(position));
+
+        TextView child_school=myrow.findViewById(R.id.child_school);
+        child_school.setText(this.arrChildSchool.get(position));
 
         TextView child_branch=myrow.findViewById(R.id.child_branch);
         child_branch.setText(this.arrChildBranch.get(position));
