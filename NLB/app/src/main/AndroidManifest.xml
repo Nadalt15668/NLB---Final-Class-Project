@@ -15,8 +15,7 @@
         <activity android:name=".parents_profile" />
         <activity android:name=".parents_update" />
         <activity android:name=".parents_hub" />
-        <activity android:name=".parents_register" />
-        <activity android:name=".parents_login" />
+        <activity android:name=".register" />
         <activity android:name=".welcome_screen" />
         <activity android:name=".main_activity">
             <intent-filter>

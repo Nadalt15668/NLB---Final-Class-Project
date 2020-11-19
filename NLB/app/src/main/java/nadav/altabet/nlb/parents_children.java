@@ -3,6 +3,7 @@ package nadav.altabet.nlb;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,7 @@ public class parents_children extends AppCompatActivity {
     public static ArrayList<Child> arrChild = new ArrayList<>();
     public static ArrayList<String> arrChildUID = new ArrayList<>();
     private FloatingActionButton add;
+    private ProgressDialog prg;
     public static int Position = 0;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -48,6 +50,13 @@ public class parents_children extends AppCompatActivity {
         setContentView(R.layout.activity_parents_children);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+        prg = new ProgressDialog(parents_children.this);
+        prg.setTitle("מציג נתונים");
+        prg.setMessage("מעלה את נתוני הילדים");
+        prg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        prg.setCancelable(false);
+
         arrChild.clear();
         arrChildUID.clear();
         add = findViewById(R.id.add_fab);
@@ -73,7 +82,7 @@ public class parents_children extends AppCompatActivity {
                     }
 
                 }
-                child_cardlsview_adap adap = new child_cardlsview_adap(arrChild, arrChildUID, parents_children.this);
+                child_cardlsview_adap adap = new child_cardlsview_adap(arrChild, arrChildUID, parents_children.this, prg);
                 child_listview.setAdapter(adap);
 
                 child_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

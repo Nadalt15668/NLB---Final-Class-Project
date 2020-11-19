@@ -1,6 +1,7 @@
 package nadav.altabet.nlb;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -26,15 +27,16 @@ import java.util.ArrayList;
 public class child_cardlsview_adap extends BaseAdapter {
     private ArrayList<Child> arrChild;
     private ArrayList<String> arrChildUID;
-
+    private ProgressDialog prg;
     private Activity ctx;
 
     private String mypath="gs://nlb-project-2287b.appspot.com";
 
-    public child_cardlsview_adap(ArrayList<Child> arrChild, ArrayList<String> arrChildUID,  Activity ctx) {
+    public child_cardlsview_adap(ArrayList<Child> arrChild, ArrayList<String> arrChildUID,  Activity ctx, ProgressDialog prg) {
         this.arrChild = arrChild;
         this.arrChildUID = arrChildUID;
         this.ctx = ctx;
+        this.prg = prg;
     }
 
     private void showImageFromFirebase(final ImageView child_profile, String picname)
@@ -82,6 +84,7 @@ public class child_cardlsview_adap extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
+
         LayoutInflater inflater =ctx.getLayoutInflater();
 
         final View myrow= inflater.inflate(R.layout.child_listview,null,true);
@@ -116,6 +119,7 @@ public class child_cardlsview_adap extends BaseAdapter {
 
         final ImageView child_profile = myrow.findViewById(R.id.child_profile);
 
+        //צריך להוסיף PRG בשביל התמונה
         String suffix=arrChild.get(position).getChild_profile().substring(arrChild.get(position).getChild_profile().lastIndexOf(".")+1);
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl(mypath).child("Child Profiles").child(arrChild.get(position).getChild_profile());
@@ -141,7 +145,6 @@ public class child_cardlsview_adap extends BaseAdapter {
         } catch (IOException e ) {} catch (Exception e) {
             e.printStackTrace();
         }
-
         return myrow;
     }
 }

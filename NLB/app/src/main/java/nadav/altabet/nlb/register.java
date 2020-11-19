@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -42,7 +41,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class parents_register extends AppCompatActivity {
+public class register extends AppCompatActivity {
 
     private ProgressDialog prg;
     private EditText edit_email,edit_pass,edit_fst,edit_lst,edit_id,edit_address,edit_city,edit_phone;
@@ -73,7 +72,7 @@ public class parents_register extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(parents_register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,7 +118,7 @@ public class parents_register extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parents_register);
+        setContentView(R.layout.activity_register);
         edit_email = findViewById(R.id.emailEditTxt);
         edit_pass = findViewById(R.id.passwordEditTxt);
         edit_fst = findViewById(R.id.fstNameEditTxt);
@@ -135,7 +134,7 @@ public class parents_register extends AppCompatActivity {
         btnPick = findViewById(R.id.btnPick);
         btnSave = findViewById(R.id.btnSave);
 
-        prg = new ProgressDialog(parents_register.this);
+        prg = new ProgressDialog(register.this);
         prg.setTitle("מעלה נתונים");
         prg.setMessage("שומר את נתוני המשתמש");
         prg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -156,7 +155,7 @@ public class parents_register extends AppCompatActivity {
                     branchName.add(branch);
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(parents_register.this, R.layout.customized_spinner, branchName);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(register.this, R.layout.customized_spinner, branchName);
                 home_branch.setAdapter(adapter);
 
             }
@@ -167,7 +166,7 @@ public class parents_register extends AppCompatActivity {
             }
         });
 
-        Permission permission = new Permission(parents_register.this);
+        Permission permission = new Permission(register.this);
         permission.verifyPermissions();
 
         //----------------------------------------------------------------------
@@ -178,7 +177,7 @@ public class parents_register extends AppCompatActivity {
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(parents_register.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(register.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         btnDate.setText(dayOfMonth + "/" + (month+1) + "/" + year);
@@ -223,50 +222,50 @@ public class parents_register extends AppCompatActivity {
                         if (female.isChecked())
                             gender = "נקבה";
                         final String finalGender = gender;
-                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(parents_register.this, new OnCompleteListener<AuthResult>() {
+                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                                     String UID = currentUser.getUid();
                                     User user = new User(email, fstName, lstName, id, city, address, phone, finalPic, dateOfBirth, finalGender, type, branchName);
-                                    databaseReference.child(UID).setValue(user).addOnCompleteListener(parents_register.this, new OnCompleteListener<Void>() {
+                                    databaseReference.child(UID).setValue(user).addOnCompleteListener(register.this, new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 prg.dismiss();
-                                                Toast.makeText(parents_register.this, "ההרשמה הסתיימה בהצלחה!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(register.this, "ההרשמה הסתיימה בהצלחה!", Toast.LENGTH_SHORT).show();
                                                 if (chosen)
                                                     addPic();
-                                                startActivity(new Intent(parents_register.this, parents_login.class));
+                                                startActivity(new Intent(register.this, welcome_screen.class));
                                             }
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(parents_register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
                             }
-                        }).addOnFailureListener(parents_register.this, new OnFailureListener() {
+                        }).addOnFailureListener(register.this, new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 prg.dismiss();
-                                Toast.makeText(parents_register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                     else
                     {
                         prg.dismiss();
-                        Toast.makeText(parents_register.this, "אין באפשרותך ליצור משתמש מתחת לגיל 18", Toast.LENGTH_LONG).show();
+                        Toast.makeText(register.this, "אין באפשרותך ליצור משתמש מתחת לגיל 18", Toast.LENGTH_LONG).show();
                     }
                 }
                 else
                 {
                     prg.dismiss();
-                    Toast.makeText(parents_register.this, "אנא מלא את כל השדות לפני סיום ההרשמה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(register.this, "אנא מלא את כל השדות לפני סיום ההרשמה", Toast.LENGTH_LONG).show();
                 }
             }
 
