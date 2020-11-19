@@ -24,35 +24,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class child_cardlsview_adap extends BaseAdapter {
-    private ArrayList<String> arrChildFirstName = new ArrayList<>();
-    private ArrayList<String> arrChildLastName = new ArrayList<>();
-    private ArrayList<String> arrChildID = new ArrayList<>();
-    private ArrayList<String> arrChildGender = new ArrayList<>();
-    private ArrayList<String> arrChildBranch = new ArrayList<>();
-    private ArrayList<String> arrChildClass = new ArrayList<>();
-    private ArrayList<String> arrChildSchool = new ArrayList<>();
-    private ArrayList<String> arrChildPhone = new ArrayList<>();
-    private ArrayList<String> arrChildEmail = new ArrayList<>();
-    private ArrayList<String> arrChildProfile = new ArrayList<>();
-    private ArrayList<Date> arrChildBirthdate = new ArrayList<>();
+    private ArrayList<Child> arrChild;
+    private ArrayList<String> arrChildUID;
+
     private Activity ctx;
 
     private String mypath="gs://nlb-project-2287b.appspot.com";
 
-    public child_cardlsview_adap(ArrayList<String> arrChildFirstName, ArrayList<String> arrChildLastName, ArrayList<String> arrChildGender, ArrayList<String> arrChildClass, ArrayList<String> arrChildSchool,
-                                 ArrayList<String> arrChildID, ArrayList<String> arrChildBranch, ArrayList<String> arrChildPhone,
-                                 ArrayList<String> arrChildEmail, ArrayList<String> arrChildProfile, ArrayList<Date> arrChildBirthdate, Activity ctx) {
-        this.arrChildFirstName = arrChildFirstName;
-        this.arrChildLastName = arrChildLastName;
-        this.arrChildGender = arrChildGender;
-        this.arrChildClass = arrChildClass;
-        this.arrChildID = arrChildID;
-        this.arrChildSchool = arrChildSchool;
-        this.arrChildBranch = arrChildBranch;
-        this.arrChildPhone = arrChildPhone;
-        this.arrChildEmail = arrChildEmail;
-        this.arrChildProfile = arrChildProfile;
-        this.arrChildBirthdate = arrChildBirthdate;
+    public child_cardlsview_adap(ArrayList<Child> arrChild, ArrayList<String> arrChildUID,  Activity ctx) {
+        this.arrChild = arrChild;
+        this.arrChildUID = arrChildUID;
         this.ctx = ctx;
     }
 
@@ -60,7 +41,7 @@ public class child_cardlsview_adap extends BaseAdapter {
     {
         String suffix=picname.substring(picname.lastIndexOf(".")+1);
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl(mypath).child("Child_Profiles").child(picname);
+        StorageReference storageRef = storage.getReferenceFromUrl(mypath).child("Child Profiles").child(picname);
         try
         {
             final File localFile = File.createTempFile(picname, suffix);
@@ -86,7 +67,7 @@ public class child_cardlsview_adap extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return this.arrChildFirstName.size();
+        return this.arrChild.size();
     }
 
     @Override
@@ -103,38 +84,63 @@ public class child_cardlsview_adap extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater =ctx.getLayoutInflater();
 
-        View myrow= inflater.inflate(R.layout.child_listview,null,true);
+        final View myrow= inflater.inflate(R.layout.child_listview,null,true);
 
         TextView child_name = myrow.findViewById(R.id.child_name);
-        child_name.setText(this.arrChildFirstName.get(position) + " " + this.arrChildLastName.get(position));
+        child_name.setText(this.arrChild.get(position).getChild_first_name() + " " + this.arrChild.get(position).getChild_last_name());
 
         TextView child_ID=myrow.findViewById(R.id.child_ID);
-        child_ID.setText(this.arrChildID.get(position));
+        child_ID.setText(this.arrChild.get(position).getChild_ID());
 
         TextView child_gender=myrow.findViewById(R.id.child_gender);
-        child_gender.setText(this.arrChildGender.get(position));
+        child_gender.setText(this.arrChild.get(position).getChild_gender());
 
         TextView child_birthdate=myrow.findViewById(R.id.child_birthdate);
-        child_birthdate.setText(this.arrChildBirthdate.get(position).getDay() + "/" +
-                this.arrChildBirthdate.get(position).getMonth() + "/" + this.arrChildBirthdate.get(position).getYear());
+        child_birthdate.setText(this.arrChild.get(position).getChild_birthdate().getDay() + "/" +
+                this.arrChild.get(position).getChild_birthdate().getMonth() + "/" + this.arrChild.get(position).getChild_birthdate().getYear());
 
         TextView child_class=myrow.findViewById(R.id.child_class);
-        child_class.setText(this.arrChildClass.get(position));
+        child_class.setText(this.arrChild.get(position).getChild_class_letter() + "' " + this.arrChild.get(position).getChild_class_number());
 
         TextView child_school=myrow.findViewById(R.id.child_school);
-        child_school.setText(this.arrChildSchool.get(position));
+        child_school.setText(this.arrChild.get(position).getChild_school());
 
         TextView child_branch=myrow.findViewById(R.id.child_branch);
-        child_branch.setText(this.arrChildBranch.get(position));
+        child_branch.setText(this.arrChild.get(position).getChild_branch());
 
         TextView child_email=myrow.findViewById(R.id.child_email);
-        child_email.setText(this.arrChildEmail.get(position));
+        child_email.setText(this.arrChild.get(position).getChild_email());
 
         TextView child_phone=myrow.findViewById(R.id.child_phone);
-        child_phone.setText(this.arrChildPhone.get(position));
+        child_phone.setText(this.arrChild.get(position).getChild_phone());
 
-        ImageView child_profile = myrow.findViewById(R.id.child_profile);
-        showImageFromFirebase(child_profile, this.arrChildProfile.get(position));
+        final ImageView child_profile = myrow.findViewById(R.id.child_profile);
+
+        String suffix=arrChild.get(position).getChild_profile().substring(arrChild.get(position).getChild_profile().lastIndexOf(".")+1);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl(mypath).child("Child Profiles").child(arrChild.get(position).getChild_profile());
+        try
+        {
+            final File localFile = File.createTempFile(arrChild.get(position).getChild_profile(), suffix);
+            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>()
+            {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot)
+                {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    child_profile.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener()
+            {
+                @Override
+                public void onFailure(@NonNull Exception exception)
+                {
+                    String message=exception.getMessage();
+                }
+            });
+        } catch (IOException e ) {} catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return myrow;
     }

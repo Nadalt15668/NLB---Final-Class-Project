@@ -21,18 +21,8 @@ import java.util.ArrayList;
 
 public class parents_children extends AppCompatActivity {
     private ListView child_listview;
-    private ArrayList<String> arrChildFirstName = new ArrayList<>();
-    private ArrayList<String> arrChildLastName = new ArrayList<>();
-    private ArrayList<String> arrChildID = new ArrayList<>();
-    private ArrayList<String> arrChildGender = new ArrayList<>();
-    private ArrayList<String> arrChildBranch = new ArrayList<>();
-    private ArrayList<String> arrChildClass = new ArrayList<>();
-    private ArrayList<String> arrChildSchool = new ArrayList<>();
-    private ArrayList<String> arrChildPhone = new ArrayList<>();
-    private ArrayList<String> arrChildEmail = new ArrayList<>();
-    private ArrayList<String> arrChildProfile = new ArrayList<>();
-    private ArrayList<Date> arrChildBirthdate = new ArrayList<>();
-    private ArrayList<Child> arrChild = new ArrayList<>();
+    public static ArrayList<Child> arrChild = new ArrayList<>();
+    public static ArrayList<String> arrChildUID = new ArrayList<>();
     private FloatingActionButton add;
     public static int Position = 0;
 
@@ -58,7 +48,8 @@ public class parents_children extends AppCompatActivity {
         setContentView(R.layout.activity_parents_children);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
+        arrChild.clear();
+        arrChildUID.clear();
         add = findViewById(R.id.add_fab);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,23 +68,12 @@ public class parents_children extends AppCompatActivity {
                     Child child = childDatabase.getValue(Child.class);
                     if (child.getParent_UID().equals(Client.getUID()))
                     {
-                        arrChildFirstName.add(child.getChild_first_name());
-                        arrChildLastName.add(child.getChild_last_name());
-                        arrChildID.add(child.getChild_ID());
-                        arrChildGender.add(child.getChild_gender());
-                        arrChildBranch.add(child.getChild_branch());
-                        arrChildClass.add(child.getChild_class_letter() + "'" + child.getChild_class_number());
-                        arrChildSchool.add(child.getChild_school());
-                        arrChildPhone.add(child.getChild_phone());
-                        arrChildEmail.add(child.getChild_email());
-                        arrChildProfile.add(child.getChild_profile());
-                        arrChildBirthdate.add(child.getChild_birthdate());
                         arrChild.add(child);
+                        arrChildUID.add(childDatabase.getKey());
                     }
 
                 }
-                child_cardlsview_adap adap = new child_cardlsview_adap(arrChildFirstName,arrChildLastName, arrChildGender, arrChildClass, arrChildSchool,
-                        arrChildID,arrChildBranch,arrChildPhone,arrChildEmail,arrChildProfile,arrChildBirthdate,parents_children.this);
+                child_cardlsview_adap adap = new child_cardlsview_adap(arrChild, arrChildUID, parents_children.this);
                 child_listview.setAdapter(adap);
 
                 child_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -137,7 +137,7 @@
                         android:backgroundTint="@android:color/white"
                         android:hint="@string/מספר"
                         android:textColor="@android:color/white"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:textColorHint="@android:color/white"
                         android:textSize="20sp" />
 
@@ -218,7 +218,7 @@
                         android:backgroundTint="@android:color/white"
                         android:hint="אימייל (לא חובה)"
                         android:textColor="@android:color/white"
-                        android:inputType="textPersonName"
+                        android:inputType="textEmailAddress"
                         android:textColorHint="@android:color/white"
                         android:textSize="20sp" />
 
@@ -247,6 +247,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:popupBackground="@color/nlb_blue"
                         android:layout_weight="1" />
 
                     <TextView
@@ -357,7 +358,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ozrad_bold"
-                        android:text="@string/זכר"
+                        android:text="@string/ילד"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -367,7 +368,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ozrad_bold"
-                        android:text="@string/נקבה"
+                        android:text="@string/ילדה"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />

@@ -39,7 +39,7 @@ public class parents_hub extends AppCompatActivity {
         children = findViewById(R.id.children);
         online_store = findViewById(R.id.onlineStore);
         title = findViewById(R.id.parents_hub_title);
-        if (Client.getCurrentUser().getGender().equals("male"))
+        if (Client.getCurrentUser().getGender().equals("זכר"))
             title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
         else
             title.setText("ברוכה הבאה " + Client.getCurrentUser().getFirst_name() + "!");
