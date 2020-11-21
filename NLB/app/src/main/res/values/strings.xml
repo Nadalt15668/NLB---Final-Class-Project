@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">NLB</string>
-    <string name="כניסת_רכזים">  כניסת רכזים</string>
+    <string name="כניסת_מנהלים">  כניסת מנהלים</string>
     <string name="כניסת_הורים">  כניסת הורים</string>
-    <string name="אימייל">אימייל:</string>
-    <string name="סיסמא">סיסמא:</string>
+    <string name="אימייל">אימייל</string>
+    <string name="סיסמא">סיסמא</string>
     <string name="הרשמה">הרשמה</string>
     <string name="שם_פרטי">שם פרטי:</string>
     <string name="שם_משפחה">שם משפחה:</string>

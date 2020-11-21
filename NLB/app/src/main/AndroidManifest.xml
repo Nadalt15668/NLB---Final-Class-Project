@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".children_update"></activity>
+        <activity android:name=".admins_hub"></activity>
+        <activity android:name=".admin_login" />
+        <activity android:name=".children_update" />
         <activity android:name=".add_child" />
         <activity android:name=".parents_children" />
         <activity android:name=".parents_profile" />

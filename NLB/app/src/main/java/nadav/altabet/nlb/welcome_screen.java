@@ -63,7 +63,7 @@ public class welcome_screen extends AppCompatActivity {
 
         prg = new ProgressDialog(welcome_screen.this);
         prg.setTitle("מעלה נתונים");
-        prg.setMessage("שומר את נתוני המשתמש");
+        prg.setMessage("מעלה את נתוני המשתמש");
         prg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prg.setCancelable(false);
 
@@ -83,7 +83,7 @@ public class welcome_screen extends AppCompatActivity {
             public void onClick(View v) {
                 prg.show();
                 String login_email = email.getText().toString();
-                String login_password = email.getText().toString();
+                String login_password = password.getText().toString();
                 firebaseAuth.signInWithEmailAndPassword(login_email,login_password).addOnCompleteListener(welcome_screen.this,new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -115,6 +115,13 @@ public class welcome_screen extends AppCompatActivity {
                         prg.dismiss();
                     }
                 });
+            }
+        });
+        nlb_logo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                startActivity(new Intent());
+                return false;
             }
         });
     }
