@@ -1,37 +1,46 @@
 <resources>
     <string name="app_name">NLB</string>
+    //כניסה
     <string name="כניסת_מנהלים">  כניסת מנהלים</string>
     <string name="כניסת_הורים">  כניסת הורים</string>
+
+    //פרטי הרשמה והוספה
     <string name="אימייל">אימייל</string>
     <string name="סיסמא">סיסמא</string>
-    <string name="הרשמה">הרשמה</string>
     <string name="שם_פרטי">שם פרטי:</string>
     <string name="שם_משפחה">שם משפחה:</string>
     <string name="תעודת_זהות">תעודת זהות:</string>
     <string name="עיר_מגורים">עיר מגורים:</string>
     <string name="רחוב_ומספר">רחוב ומספר:</string>
     <string name="מס_טלפון">מספר טלפון:</string>
-    <string name="בחירת_תמונה">בחר תמונה</string>
     <string name="זכר">זכר</string>
     <string name="נקבה">נקבה</string>
-    <string name="בחירת_תאריך">בחר תאריך לידה</string>
-    <string name="סיום">סיים הרשמה</string>
     <string name="מס_זהות">מספר זהות:</string>
-    <string name="התחברות">התחברות</string>
-    <string name="ברוך_הבא">ברוך הבא </string>
-    <string name="חנות">איזור התשלומים</string>
-    <string name="פרופיל">הפרופיל שלי</string>
-    <string name="ילדים">הילדים שלי</string>
-    <string name="התנתקות">התנתקות</string>
-    <string name="עדכון">עדכון פרופיל</string>
-    <string name="הוסף_ילד">הוסף ילד</string>
     <string name="כיתה">כיתה:</string>
     <string name="ילד">ילד</string>
     <string name="ילדה">ילדה</string>
     <string name="מספר">מספר</string>
     <string name="בית_ספר">בית ספר:</string>
+    <string name="סניף">סניף הבית</string>
+
+
+    //כפתורים
+    <string name="התחברות">התחברות</string>
+    <string name="בחירת_תאריך">בחר תאריך לידה</string>
+    <string name="סיום">סיים הרשמה</string>
+    <string name="בחירת_תמונה">בחר תמונה</string>
+    <string name="חנות">איזור התשלומים</string>
+    <string name="פרופיל">הפרופיל שלי</string>
+    <string name="ילדים">הילדים שלי</string>
+    <string name="התנתקות">התנתקות</string>
+    <string name="עדכון">עדכון פרופיל</string>
     <string name="מחיקה">מחיקה</string>
     <string name="עדכון_נתונים">עדכון נתונים</string>
-    <string name="סניף">סניף הבית</string>
+
+    //כותרות
+    <string name="הרשמה">הרשמה</string>
+    <string name="ברוך_הבא">ברוך הבא </string>
+    <string name="הוסף_ילד">הוסף ילד</string>
+    <string name="עובדים">העובדים שלי</string>
 
 </resources>

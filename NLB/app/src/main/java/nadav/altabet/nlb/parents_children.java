@@ -59,7 +59,7 @@ public class parents_children extends AppCompatActivity {
 
         arrChild.clear();
         arrChildUID.clear();
-        add = findViewById(R.id.add_fab);
+        add = findViewById(R.id.add_fab_child);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
