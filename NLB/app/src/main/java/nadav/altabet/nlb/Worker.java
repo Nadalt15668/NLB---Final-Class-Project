@@ -1,24 +1,27 @@
 package nadav.altabet.nlb;
 
-public class Coordinator {
+public class Worker {
 
     private String email;
     private Date startDate;
     private Date endDate;
+    private String type;
 
-    public Coordinator(String email, Date startDate, Date endDate) {
+    public Worker(String email, Date startDate, Date endDate, String type) {
         this.email = email;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.type = type;
     }
 
-    public Coordinator(String email, Date startDate) {
+    public Worker(String email, Date startDate, String type) {
         this.email = email;
         this.startDate = startDate;
         this.endDate = new Date();
+        this.type = type;
     }
 
-    public Coordinator() {
+    public Worker() {
     }
 
     public String getEmail() {

@@ -8,4 +8,16 @@
     android:background="@drawable/nlb_bground"
     tools:context=".add_worker">
 
+    <TextView
+        android:id="@+id/add_child_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/ozrad_bold"
+        android:text="@string/הוסף_עובד"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
 </LinearLayout>
