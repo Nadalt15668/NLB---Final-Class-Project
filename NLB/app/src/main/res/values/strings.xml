@@ -5,8 +5,8 @@
     <string name="כניסת_הורים">  כניסת הורים</string>
 
     //פרטי הרשמה והוספה
-    <string name="אימייל">אימייל</string>
-    <string name="סיסמא">סיסמא</string>
+    <string name="אימייל">אימייל:</string>
+    <string name="סיסמא">סיסמא:</string>
     <string name="שם_פרטי">שם פרטי:</string>
     <string name="שם_משפחה">שם משפחה:</string>
     <string name="תעודת_זהות">תעודת זהות:</string>
@@ -22,6 +22,7 @@
     <string name="מספר">מספר</string>
     <string name="בית_ספר">בית ספר:</string>
     <string name="סניף">סניף הבית</string>
+    <string name="תפקיד">תפקיד: </string>
 
 
     //כפתורים
@@ -36,12 +37,14 @@
     <string name="עדכון">עדכון פרופיל</string>
     <string name="מחיקה">מחיקה</string>
     <string name="עדכון_נתונים">עדכון נתונים</string>
+    <string name="בחר_תאריך_התחלה">תחילת תקופת העבודה (חובה)</string>
+    <string name="בחר_תאריך_סיום">סיום תקופת העבודה (לא חובה)</string>
 
-    //כותרות
+     //כותרות והערות
     <string name="הרשמה">הרשמה</string>
     <string name="ברוך_הבא">ברוך הבא </string>
     <string name="הוסף_ילד">הוסף ילד</string>
     <string name="עובדים">העובדים שלי</string>
     <string name="הוסף_עובד">הוסף עובד</string>
-
+    <string name="אימייל_עובד_הערה">*על האימייל הנ"ל להיות אותו האימייל שאיתו נרשם אותו עובד</string>
 </resources>

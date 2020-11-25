@@ -5,20 +5,20 @@ public class Worker {
     private String email;
     private Date startDate;
     private Date endDate;
-    private String type;
+    private String Role;
 
-    public Worker(String email, Date startDate, Date endDate, String type) {
+    public Worker(String email, Date startDate, Date endDate, String Role) {
         this.email = email;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.type = type;
+        this.Role = Role;
     }
 
-    public Worker(String email, Date startDate, String type) {
+    public Worker(String email, Date startDate, String Role) {
         this.email = email;
         this.startDate = startDate;
         this.endDate = new Date();
-        this.type = type;
+        this.Role = Role;
     }
 
     public Worker() {
