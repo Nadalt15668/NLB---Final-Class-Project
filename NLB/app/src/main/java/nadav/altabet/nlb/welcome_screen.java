@@ -29,7 +29,6 @@ public class welcome_screen extends AppCompatActivity {
     private Button register, login;
     private ProgressDialog prg;
     private EditText email, password;
-    private ImageButton nlb_logo;
     //---------------------------------------------------
     private FirebaseAuth firebaseAuth = null;
     private FirebaseDatabase firebaseDatabase = null;
@@ -57,7 +56,6 @@ public class welcome_screen extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_screen);
         register = findViewById(R.id.register);
         login = findViewById(R.id.login);
-        nlb_logo = findViewById(R.id.nlb_logo);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
 
@@ -95,9 +93,22 @@ public class welcome_screen extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     Client.setCurrentUser(dataSnapshot.getValue(User.class));
                                     prg.dismiss();
-                                    Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
                                     if (Client.getCurrentUser().getType().equals("parent"))
+                                    {
                                         startActivity(new Intent(welcome_screen.this,parents_hub.class));
+                                        Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else if(Client.getCurrentUser().getType().equals("admin"))
+                                    {
+                                        startActivity(new Intent(welcome_screen.this, admins_hub.class));
+                                        Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Client.setCurrentUser(null);
+                                        Client.setUID(null);
+                                        Toast.makeText(welcome_screen.this, "סוג המשתמש שלך לא מזוהה במערכת, אנא פנה למזכירות התנועה לבירור הבעיה", Toast.LENGTH_LONG).show();
+                                    }
                                 }
 
                                 @Override
@@ -115,13 +126,6 @@ public class welcome_screen extends AppCompatActivity {
                         prg.dismiss();
                     }
                 });
-            }
-        });
-        nlb_logo.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                startActivity(new Intent());
-                return false;
             }
         });
     }
