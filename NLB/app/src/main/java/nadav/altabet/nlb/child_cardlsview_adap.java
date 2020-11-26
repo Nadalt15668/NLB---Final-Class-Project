@@ -39,34 +39,6 @@ public class child_cardlsview_adap extends BaseAdapter {
         this.prg = prg;
     }
 
-    private void showImageFromFirebase(final ImageView child_profile, String picname)
-    {
-        String suffix=picname.substring(picname.lastIndexOf(".")+1);
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl(mypath).child("Child Profiles").child(picname);
-        try
-        {
-            final File localFile = File.createTempFile(picname, suffix);
-            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>()
-            {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot)
-                {
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    child_profile.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener()
-            {
-                @Override
-                public void onFailure(@NonNull Exception exception)
-                {
-                    String message=exception.getMessage();
-                }
-            });
-        } catch (IOException e ) {} catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     @Override
     public int getCount() {
         return this.arrChild.size();
@@ -85,6 +57,7 @@ public class child_cardlsview_adap extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
 
+        this.prg.show();
         LayoutInflater inflater =ctx.getLayoutInflater();
 
         final View myrow= inflater.inflate(R.layout.child_listview,null,true);
@@ -133,6 +106,7 @@ public class child_cardlsview_adap extends BaseAdapter {
                 {
                     Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                     child_profile.setImageBitmap(bitmap);
+                    prg.dismiss();
                 }
             }).addOnFailureListener(new OnFailureListener()
             {
@@ -145,6 +119,7 @@ public class child_cardlsview_adap extends BaseAdapter {
         } catch (IOException e ) {} catch (Exception e) {
             e.printStackTrace();
         }
+
         return myrow;
     }
 }

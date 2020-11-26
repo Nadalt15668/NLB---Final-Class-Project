@@ -65,7 +65,6 @@ public class welcome_screen extends AppCompatActivity {
         prg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prg.setCancelable(false);
 
-
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Parents");
