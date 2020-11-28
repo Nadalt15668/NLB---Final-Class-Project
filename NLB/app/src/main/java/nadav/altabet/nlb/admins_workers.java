@@ -29,7 +29,7 @@ public class admins_workers extends AppCompatActivity {
     public static int Position = 0;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = database.getReference("Workers");
+    DatabaseReference workersReference = database.getReference("Workers");
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -67,7 +67,7 @@ public class admins_workers extends AppCompatActivity {
             }
         });
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        workersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();

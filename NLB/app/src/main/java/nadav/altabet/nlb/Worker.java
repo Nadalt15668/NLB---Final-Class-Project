@@ -47,4 +47,12 @@ public class Worker {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
+    public String getRole() {
+        return Role;
+    }
+
+    public void setRole(String role) {
+        Role = role;
+    }
 }
