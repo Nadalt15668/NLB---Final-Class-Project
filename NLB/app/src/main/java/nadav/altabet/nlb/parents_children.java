@@ -46,10 +46,10 @@ public class parents_children extends AppCompatActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parents_children);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_parents_children);
 
         prg = new ProgressDialog(parents_children.this);
         prg.setTitle("מציג נתונים");

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class add_worker extends AppCompatActivity {
     private boolean isEndDateSet = false;
     //-----------------------------------------
     private DatabaseReference workerReference = FirebaseDatabase.getInstance().getReference("Workers");
+    private DatabaseReference parentReference = FirebaseDatabase.getInstance().getReference("Parents");
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     private DatabaseReference databaseReference = null;
     private FirebaseAuth firebaseAuth = null;
@@ -61,6 +63,32 @@ public class add_worker extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
+
+    private void changeWorkerRole()
+    {
+        parentReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot childDatabase: children)
+                {
+                    User user = childDatabase.getValue(User.class);
+                    if (user.getEmail().equals(email_worker.getText().toString()))
+                    {
+                        user.setType("worker");
+                        reference = database.getReference("Parents").child(childDatabase.getKey()).setValue(user);
+                        break;
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +116,8 @@ public class add_worker extends AppCompatActivity {
                     String role = childDatabase.getValue(String.class);
                     arrRoles.add(role);
                 }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(add_worker.this, R.layout.customized_spinner, arrRoles);
+                spn_role.setAdapter(adapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -130,9 +160,9 @@ public class add_worker extends AppCompatActivity {
         endDate.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                chosenEndDay = Integer.parseInt(null);
-                chosenEndMonth = Integer.parseInt(null);
-                chosenEndYear = Integer.parseInt(null);
+                chosenEndDay = -1;
+                chosenEndMonth = -1;
+                chosenEndYear = -1;
                 endDate.setText(R.string.בחר_תאריך_סיום);
                 return false;
             }
@@ -147,8 +177,10 @@ public class add_worker extends AppCompatActivity {
                 Worker worker = new Worker(email,startDate,endDate,role);
                 DatabaseReference newRef = workerReference.push();
                 reference = newRef.setValue(worker);
-                startActivity(new Intent(add_worker.this, admins_workers.class));
+                startActivity(new Intent(add_worker.this, admins_hub.class));
+                changeWorkerRole();
                 Toast.makeText(add_worker.this, "העובד התווסף בהצלחה!", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

@@ -92,7 +92,6 @@ public class child_cardlsview_adap extends BaseAdapter {
 
         final ImageView child_profile = myrow.findViewById(R.id.child_profile);
 
-        //צריך להוסיף PRG בשביל התמונה
         String suffix=arrChild.get(position).getChild_profile().substring(arrChild.get(position).getChild_profile().lastIndexOf(".")+1);
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl(mypath).child("Child Profiles").child(arrChild.get(position).getChild_profile());

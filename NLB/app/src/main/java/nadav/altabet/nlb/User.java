@@ -12,7 +12,7 @@ public class User {
     private String pic;
     private nadav.altabet.nlb.Date date_of_birth;
     private String gender;
-    private String type;//Parent / Coordinator / Admin
+    private String type;//Parent / Worker / Admin
     private String branch_name;
 
     public User(String email, String first_name, String last_name, String ID, String city, String address,
