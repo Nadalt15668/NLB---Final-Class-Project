@@ -24,7 +24,8 @@ public class admins_workers extends AppCompatActivity {
 
     private ListView worker_lstview;
     private FloatingActionButton add;
-    private ArrayList<Worker> arrWorkers = new ArrayList<>();
+    public static ArrayList<Worker> arrWorkers = new ArrayList<>();
+    public static ArrayList<String> arrWorkersUID = new ArrayList<>();
     private ProgressDialog prg;
     public static int Position = 0;
 
@@ -57,6 +58,9 @@ public class admins_workers extends AppCompatActivity {
         prg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         prg.setCancelable(false);
 
+        arrWorkers.clear();
+        arrWorkersUID.clear();
+
         worker_lstview = findViewById(R.id.worker_listview);
         add = findViewById(R.id.add_fab_worker);
 
@@ -75,7 +79,7 @@ public class admins_workers extends AppCompatActivity {
                 {
                     Worker worker = childDatabase.getValue(Worker.class);
                     arrWorkers.add(worker);
-
+                    arrWorkersUID.add(childDatabase.getKey());
                 }
                 worker_cardlsview_adap worker_cardlsview_adap = new worker_cardlsview_adap(arrWorkers, admins_workers.this, prg);
                 worker_lstview.setAdapter(worker_cardlsview_adap);
@@ -84,7 +88,7 @@ public class admins_workers extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Position = position;
-                        startActivity(new Intent(admins_workers.this,children_update.class));
+                        startActivity(new Intent(admins_workers.this,workers_update.class));
                     }
                 });
 
