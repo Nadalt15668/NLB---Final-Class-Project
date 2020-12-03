@@ -29,7 +29,7 @@ import java.util.Calendar;
 public class workers_update extends AppCompatActivity {
 
     private Spinner updRoleWorker;
-    private Button updStartDate, updEndDate, updRemoveWorker,updSaveWorker;
+    private Button updStartDate, updRemoveWorker,updSaveWorker;
     private ArrayList<String> arrRoles = new ArrayList<>();
     //-----------------------------------------
     private Calendar calendar = null;
@@ -99,7 +99,6 @@ public class workers_update extends AppCompatActivity {
         setContentView(R.layout.activity_workers_update);
         updRoleWorker = findViewById(R.id.updRoleWorker);
         updStartDate = findViewById(R.id.updStartDate);
-        updEndDate = findViewById(R.id.updEndDate);
         updRemoveWorker = findViewById(R.id.updRemoveWorker);
         updSaveWorker = findViewById(R.id.updSaveWorker);
 
@@ -139,20 +138,6 @@ public class workers_update extends AppCompatActivity {
                 admins_workers.arrWorkers.get(admins_workers.Position).getStartDate().getYear();
         updStartDate.setText(startDate);
 
-        if (admins_workers.arrWorkers.get(admins_workers.Position).getEndDate().getDay() <= 0 ||
-                admins_workers.arrWorkers.get(admins_workers.Position).getEndDate().getMonth() <= 0 ||
-                admins_workers.arrWorkers.get(admins_workers.Position).getEndDate().getYear() <= 0)
-        {
-            updEndDate.setText("תאריך סיום לא ידוע");
-        }
-        else
-        {
-            String endDate = admins_workers.arrWorkers.get(admins_workers.Position).getEndDate().getDay() + "/" +
-                    admins_workers.arrWorkers.get(admins_workers.Position).getEndDate().getMonth() + "/" +
-                    admins_workers.arrWorkers.get(admins_workers.Position).getEndDate().getYear();
-            updEndDate.setText(endDate);
-        }
-
         updStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,32 +151,6 @@ public class workers_update extends AppCompatActivity {
                     }
                 },year,month,day);
                 datePickerDialog.show();
-            }
-        });
-        updEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(workers_update.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        updEndDate.setText(dayOfMonth + "/" + (month+1) + "/" + year);
-                        chosenEndDay = dayOfMonth;
-                        chosenEndMonth  = month+1;
-                        chosenEndYear = year;
-                        isEndDateSet = true;
-                    }
-                },year,month,day);
-                datePickerDialog.show();
-            }
-        });
-        updEndDate.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                chosenEndDay = -1;
-                chosenEndMonth = -1;
-                chosenEndYear = -1;
-                updEndDate.setText(R.string.בחר_תאריך_סיום);
-                return false;
             }
         });
 
@@ -217,13 +176,13 @@ public class workers_update extends AppCompatActivity {
                 if (Client.getCurrentUser().getGender().equals("זכר"))
                 {
                     dialog.setTitle("אתה בטוח?");
-                    dialog.setMessage("האם אתה בטוח שאתה רוצה לבצע פעולה זאת? אין דרך לשחזר את הנתונים לאחר המחיקה");
+                    dialog.setMessage("האם אתה בטוח שאתה רוצה לבצע פעולה זאת? אין דרך לשחזר את הנתונים לאחר ההסרה");
                     dialog.setCancelable(false);
                     dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String workerUID = admins_workers.arrWorkersUID.get(admins_workers.Position);
-                            reference = FirebaseDatabase.getInstance().getReference("Workers").child(workerUID).setValue(null);
+                            reference = FirebaseDatabase.getInstance().getReference("Workers").child(workerUID).setValue(new Worker(admins_workers.arrWorkers.get(admins_workers.Position)));
                             changeWorkerRole();
                             dialog.dismiss();
                             Toast.makeText(workers_update.this, "העובד הוסר בהצלחה!", Toast.LENGTH_SHORT).show();
@@ -240,13 +199,13 @@ public class workers_update extends AppCompatActivity {
                 else
                 {
                     dialog.setTitle("את בטוחה?");
-                    dialog.setMessage("האם את בטוחה שאת רוצה לבצע פעולה זאת? אין דרך לשחזר את הנתונים לאחר המחיקה");
+                    dialog.setMessage("האם את בטוחה שאת רוצה לבצע פעולה זאת? אין דרך לשחזר את הנתונים לאחר ההסרה");
                     dialog.setCancelable(false);
                     dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String workerUID = admins_workers.arrWorkersUID.get(admins_workers.Position);
-                            reference = FirebaseDatabase.getInstance().getReference("Workers").child(workerUID).setValue(null);
+                            reference = FirebaseDatabase.getInstance().getReference("Workers").child(workerUID).setValue(new Worker(admins_workers.arrWorkers.get(admins_workers.Position)));
                             changeWorkerRole();
                             dialog.dismiss();
                             Toast.makeText(workers_update.this, "העובד הוסר בהצלחה!", Toast.LENGTH_SHORT).show();

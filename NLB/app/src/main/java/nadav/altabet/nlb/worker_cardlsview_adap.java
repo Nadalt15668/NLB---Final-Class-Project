@@ -71,7 +71,6 @@ public class worker_cardlsview_adap extends BaseAdapter {
         TextView worker_email = myrow.findViewById(R.id.worker_email);
         final TextView worker_name = myrow.findViewById(R.id.worker_name);
         TextView worker_startDate = myrow.findViewById(R.id.worker_startDate);
-        TextView worker_endDate = myrow.findViewById(R.id.worker_endDate);
         TextView worker_role = myrow.findViewById(R.id.worker_role);
         final ImageView worker_profile = myrow.findViewById(R.id.worker_profile);
 
@@ -82,20 +81,6 @@ public class worker_cardlsview_adap extends BaseAdapter {
                 this.arrWorkers.get(position).getStartDate().getMonth() + "/" +
                 this.arrWorkers.get(position).getStartDate().getYear();
         worker_startDate.setText(startDate);
-
-        if (this.arrWorkers.get(position).getEndDate().getDay() <= 0 ||
-                this.arrWorkers.get(position).getEndDate().getMonth() <= 0 ||
-                this.arrWorkers.get(position).getEndDate().getYear() <= 0)
-        {
-            worker_endDate.setText("תאריך סיום לא ידוע");
-        }
-        else
-        {
-            String endDate = this.arrWorkers.get(position).getEndDate().getDay() + "/" +
-                    this.arrWorkers.get(position).getEndDate().getMonth() + "/" +
-                    this.arrWorkers.get(position).getEndDate().getYear();
-            worker_endDate.setText(endDate);
-        }
 
         parentsReference.addValueEventListener(new ValueEventListener() {
             @Override

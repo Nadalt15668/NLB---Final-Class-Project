@@ -239,8 +239,10 @@ public class children_update extends AppCompatActivity {
                     dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            DatabaseReference newRef = childReference.push();
-                            reference = newRef.setValue(null);
+                            reference = database.getReference("Children").child(parents_children.arrChildUID.get(parents_children.Position)).setValue(null);
+                            dialog.dismiss();
+                            Toast.makeText(children_update.this, "הילד הוסר בהצלחה!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(children_update.this, parents_hub.class));
                         }
                     });
                     dialog.setButton(dialog.BUTTON_POSITIVE, "לא", new DialogInterface.OnClickListener() {
@@ -258,8 +260,11 @@ public class children_update extends AppCompatActivity {
                     dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            DatabaseReference newRef = childReference.push();
-                            reference = newRef.setValue(null);
+                            reference = database.getReference("Children").child(parents_children.arrChildUID.get(parents_children.Position)).setValue(null);
+                            dialog.dismiss();
+                            Toast.makeText(children_update.this, "הילד הוסר בהצלחה!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(children_update.this, parents_hub.class));
+
                         }
                     });
                     dialog.setButton(dialog.BUTTON_POSITIVE, "לא", new DialogInterface.OnClickListener() {

@@ -1,18 +1,13 @@
 package nadav.altabet.nlb;
 
+import java.util.Calendar;
+
 public class Worker {
 
     private String email;
     private Date startDate;
     private Date endDate;
     private String Role;
-
-    public Worker(String email, Date startDate, Date endDate, String Role) {
-        this.email = email;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.Role = Role;
-    }
 
     public Worker(String email, Date startDate, String Role) {
         this.email = email;
@@ -22,6 +17,18 @@ public class Worker {
     }
 
     public Worker() {
+    }
+
+    public Worker(Worker w)
+    {
+        this.email = w.getEmail();
+        this.startDate = w.getStartDate();
+        this.endDate.setDay(Calendar.getInstance().DAY_OF_MONTH);
+        this.endDate.setMonth(Calendar.getInstance().MONTH);
+        this.endDate.setYear(Calendar.getInstance().YEAR);
+        this.endDate.setMinute(Calendar.getInstance().MINUTE);
+        this.endDate.setHour(Calendar.getInstance().HOUR_OF_DAY);
+        this.Role = w.getRole();
     }
 
     public String getEmail() {

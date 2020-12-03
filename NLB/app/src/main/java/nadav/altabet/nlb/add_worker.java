@@ -31,7 +31,7 @@ import java.util.Calendar;
 public class add_worker extends AppCompatActivity {
 
     private EditText email_worker;
-    private Button startDate, endDate, saveWorker;
+    private Button startDate, saveWorker;
     private Spinner spn_role;
     private ArrayList<String> arrRoles = new ArrayList<>();
     //-----------------------------------------
@@ -98,7 +98,6 @@ public class add_worker extends AppCompatActivity {
         setContentView(R.layout.activity_add_worker);
         email_worker = findViewById(R.id.emailWorkerEditTxt);
         startDate = findViewById(R.id.btnStartDate);
-        endDate = findViewById(R.id.btnEndDate);
         saveWorker = findViewById(R.id.btnSaveWorker);
         spn_role = findViewById(R.id.spnRoleWorker);
 
@@ -141,40 +140,14 @@ public class add_worker extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-        endDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(add_worker.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        endDate.setText(dayOfMonth + "/" + (month+1) + "/" + year);
-                       chosenEndDay = dayOfMonth;
-                       chosenEndMonth  = month+1;
-                       chosenEndYear = year;
-                       isEndDateSet = true;
-                    }
-                },year,month,day);
-                datePickerDialog.show();
-            }
-        });
-        endDate.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                chosenEndDay = -1;
-                chosenEndMonth = -1;
-                chosenEndYear = -1;
-                endDate.setText(R.string.בחר_תאריך_סיום);
-                return false;
-            }
-        });
+
         saveWorker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String email = email_worker.getText().toString();
                 final String role = spn_role.getSelectedItem().toString();
                 final Date startDate = new Date(chosenStartYear,chosenStartMonth,chosenStartDay);
-                final Date endDate = new Date(chosenEndYear,chosenEndMonth,chosenEndDay);
-                Worker worker = new Worker(email,startDate,endDate,role);
+                Worker worker = new Worker(email,startDate,role);
                 DatabaseReference newRef = workerReference.push();
                 reference = newRef.setValue(worker);
                 startActivity(new Intent(add_worker.this, admins_hub.class));
