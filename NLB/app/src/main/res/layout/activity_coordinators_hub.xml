@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/nlb_bground"
+    tools:context=".coordinators_hub">
+
+    <TextView
+        android:id="@+id/parents_hub_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/ozrad_bold"
+        android:gravity="center_horizontal"
+        android:text="@string/ברוך_הבא"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/myProfile"
+        android:layout_width="175dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:cardBackgroundColor="@color/nlb_blue"
+        app:cardCornerRadius="30dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/profile"
+                android:layout_width="130dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15sp"
+                android:layout_marginEnd="5dp"
+                app:srcCompat="@drawable/guiders_100px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/ozrad_bold"
+                android:text="@string/פרופיל"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

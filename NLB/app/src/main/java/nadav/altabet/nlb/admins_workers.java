@@ -78,8 +78,11 @@ public class admins_workers extends AppCompatActivity {
                 for (DataSnapshot childDatabase: children)
                 {
                     Worker worker = childDatabase.getValue(Worker.class);
-                    arrWorkers.add(worker);
-                    arrWorkersUID.add(childDatabase.getKey());
+                    if (worker.getEndDate().getDay() == -1)
+                    {
+                        arrWorkers.add(worker);
+                        arrWorkersUID.add(childDatabase.getKey());
+                    }
                 }
                 worker_cardlsview_adap worker_cardlsview_adap = new worker_cardlsview_adap(arrWorkers, admins_workers.this, prg);
                 worker_lstview.setAdapter(worker_cardlsview_adap);
