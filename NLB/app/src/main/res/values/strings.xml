@@ -33,6 +33,7 @@
     <string name="חנות">איזור התשלומים</string>
     <string name="פרופיל">הפרופיל שלי</string>
     <string name="ילדים">הילדים שלי</string>
+    <string name="מדריכים">המדריכים שלי</string>
     <string name="התנתקות">התנתקות</string>
     <string name="עדכון">עדכון פרופיל</string>
     <string name="מחיקה">מחיקה</string>
@@ -48,6 +49,8 @@
     <string name="עובדים">העובדים שלי</string>
     <string name="הוסף_עובד">הוסף עובד</string>
     <string name="עדכן_עובד">עדכן עובד</string>
+    <string name="מדריכים_בהמתנה">מדריכים בהמתנה לאישור</string>
     <string name="אימייל_עובד_הערה">*על האימייל הנ"ל להיות אותו האימייל שאיתו נרשם אותו עובד</string>
+    <string name="מדריכים_בהמתנה_הערה">לחץ על מדריך ברשימה על מנת לאשר אותו במערכת</string>
     <string name="תאריך_סיום_עובד_הערה">*על מנת לאפס את תאריך הסיום יש ללחוץ לחיצה ארוכה על הכפתור לבחירת תאריך הסיום</string>
 </resources>

@@ -9,7 +9,7 @@
     tools:context=".admins_hub">
 
     <TextView
-        android:id="@+id/parents_hub_title"
+        android:id="@+id/admins_hub_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"

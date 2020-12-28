@@ -9,7 +9,7 @@
     tools:context=".coordinators_hub">
 
     <TextView
-        android:id="@+id/parents_hub_title"
+        android:id="@+id/coordinators_hub_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -21,7 +21,7 @@
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/myProfile"
+        android:id="@+id/guidesCoordinator"
         android:layout_width="175dp"
         android:layout_height="170dp"
         android:layout_gravity="center"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/ozrad_bold"
-                android:text="@string/פרופיל"
+                android:text="@string/מדריכים"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />

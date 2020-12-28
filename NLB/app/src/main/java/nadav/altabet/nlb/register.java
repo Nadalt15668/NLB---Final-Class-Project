@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -38,6 +40,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -61,6 +64,7 @@ public class register extends AppCompatActivity {
     private FirebaseAuth firebaseAuth = null;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     private final DatabaseReference branchReference = FirebaseDatabase.getInstance().getReference("Branches");
+    private  DatabaseReference guidesWLReference = FirebaseDatabase.getInstance().getReference("GuidesWL");
     //--------------------------------------------------------------------------
     private void addPic()
     {
@@ -134,6 +138,8 @@ public class register extends AppCompatActivity {
         btnPick = findViewById(R.id.btnPick);
         btnSave = findViewById(R.id.btnSave);
 
+
+
         prg = new ProgressDialog(register.this);
         prg.setTitle("מעלה נתונים");
         prg.setMessage("שומר את נתוני המשתמש");
@@ -144,6 +150,7 @@ public class register extends AppCompatActivity {
         day  = calendar.get(Calendar.DAY_OF_MONTH);
         month = calendar.get(Calendar.MONTH);
         year = calendar.get(Calendar.YEAR);
+
 
         branchReference.addValueEventListener(new ValueEventListener()
         {
@@ -213,39 +220,72 @@ public class register extends AppCompatActivity {
                     final String type = "parent";
                     final String branchName = home_branch.getSelectedItem().toString();
                     final Date dateOfBirth = new Date(chosenYear, chosenMonth, chosenDay);
-                    if (dateOfBirth.checkForAbove18(new Date(year, month, day)) > 18) {
-                        String pic = "nlb_logo_removedbg.png";
-                        if (chosen)
-                            pic = picName;
-                        final String finalPic = pic;
-                        String gender = "זכר";
-                        if (female.isChecked())
-                            gender = "נקבה";
-                        final String finalGender = gender;
+                    String pic = "nlb_logo_removedbg.png";
+                    if (chosen)
+                        pic = picName;
+                    final String finalPic = pic;
+                    String gender = "זכר";
+                    if (female.isChecked())
+                        gender = "נקבה";
+                    final String finalGender = gender;
                         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                                    String UID = currentUser.getUid();
-                                    User user = new User(email, fstName, lstName, id, city, address, phone, finalPic, dateOfBirth, finalGender, type, branchName);
-                                    databaseReference.child(UID).setValue(user).addOnCompleteListener(register.this, new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                prg.dismiss();
-                                                Toast.makeText(register.this, "ההרשמה הסתיימה בהצלחה!", Toast.LENGTH_SHORT).show();
-                                                if (chosen)
-                                                    addPic();
-                                                startActivity(new Intent(register.this, welcome_screen.class));
+                                    final String UID = currentUser.getUid();
+                                    final User user = new User(email, fstName, lstName, id, city, address, phone, finalPic, dateOfBirth, finalGender, type, branchName);
+                                    if (dateOfBirth.checkForAbove18(new Date(year, month, day)) > 18) {
+                                        databaseReference.child(UID).setValue(user).addOnCompleteListener(register.this, new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    prg.dismiss();
+                                                    Toast.makeText(register.this, "ההרשמה הסתיימה בהצלחה!", Toast.LENGTH_SHORT).show();
+                                                    if (chosen)
+                                                        addPic();
+                                                    startActivity(new Intent(register.this, welcome_screen.class));
+                                                }
                                             }
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                        }
-                                    });
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {
+                                        AlertDialog dialog = new AlertDialog.Builder(register.this).create();
+                                        prg.dismiss();
+                                        dialog.setTitle("הינך מתחת לגיל 18");
+                                        dialog.setMessage("לפי תאריך הלידה שלך הינך מתחת לגיל 18, האם להוסיף אותך כמדריך/ה?");
+                                        dialog.setCancelable(false);
+                                        dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(final DialogInterface dialog, int which) {
+                                                guidesWLReference.child(UID).setValue(user).addOnCompleteListener(register.this, new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            dialog.dismiss();
+                                                            Toast.makeText(register.this, "ההרשמה הסתיימה בהצלחה!", Toast.LENGTH_SHORT).show();
+                                                            if (chosen)
+                                                                addPic();
+                                                            startActivity(new Intent(register.this, welcome_screen.class));
+                                                        }
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+
+                                            }
+                                        });
+                                        dialog.show();
+                                    }
                                 }
                             }
                         }).addOnFailureListener(register.this, new OnFailureListener() {
@@ -255,12 +295,6 @@ public class register extends AppCompatActivity {
                                 Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
-                    else
-                    {
-                        prg.dismiss();
-                        Toast.makeText(register.this, "אין באפשרותך ליצור משתמש מתחת לגיל 18", Toast.LENGTH_LONG).show();
-                    }
                 }
                 else
                 {
