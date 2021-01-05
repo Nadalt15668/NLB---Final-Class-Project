@@ -33,7 +33,6 @@ public class coordinators_hub extends AppCompatActivity {
         setContentView(R.layout.activity_coordinators_hub);
         guides = findViewById(R.id.guidesCoordinator);
 
-
         guides.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
