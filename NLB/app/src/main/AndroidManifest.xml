@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".guides_hub"></activity>
+        <activity android:name=".guides_activities"></activity>
+        <activity android:name=".guides_hub" />
         <activity android:name=".add_guide" />
         <activity android:name=".coordinators_guides" />
         <activity android:name=".coordinators_hub" />

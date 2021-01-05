@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 public class coordinators_hub extends AppCompatActivity {
 
+    private TextView coordinators_hub_title;
     private CardView guides;
 
     @Override
@@ -32,6 +34,11 @@ public class coordinators_hub extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coordinators_hub);
         guides = findViewById(R.id.guidesCoordinator);
+
+        if (Client.getCurrentUser().getGender().equals("זכר"))
+            coordinators_hub_title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
+        else
+            coordinators_hub_title.setText("ברוכה הבאה " + Client.getCurrentUser().getFirst_name() + "!");
 
         guides.setOnClickListener(new View.OnClickListener() {
             @Override

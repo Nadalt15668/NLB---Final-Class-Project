@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class parents_hub extends AppCompatActivity {
 
-    private TextView title;
+    private TextView parents_hub_title;
     private CardView logout,profile,children,online_store;
 
     @Override
@@ -38,11 +38,11 @@ public class parents_hub extends AppCompatActivity {
         profile = findViewById(R.id.myProfile);
         children = findViewById(R.id.children);
         online_store = findViewById(R.id.onlineStore);
-        title = findViewById(R.id.parents_hub_title);
+        parents_hub_title = findViewById(R.id.parents_hub_title);
         if (Client.getCurrentUser().getGender().equals("זכר"))
-            title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
+            parents_hub_title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
         else
-            title.setText("ברוכה הבאה " + Client.getCurrentUser().getFirst_name() + "!");
+            parents_hub_title.setText("ברוכה הבאה " + Client.getCurrentUser().getFirst_name() + "!");
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
