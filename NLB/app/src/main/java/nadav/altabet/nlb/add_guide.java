@@ -108,7 +108,7 @@ public class add_guide extends AppCompatActivity {
                                 reference = database.getReference("GuidesWL").child(arrGuideWLuid.get(position)).setValue(null);
                                 DatabaseReference newRef = guidesReference.push();
                                 User guideWL = arrGuideWL.get(position);
-                                guideWL.setType("guideWL");
+                                guideWL.setType("guide");
                                 reference = newRef.setValue(guideWL);
                                 startActivity(new Intent(add_guide.this, coordinators_guides.class));
                                 Toast.makeText(add_guide.this, "המדריך נוסף בהצלחה!", Toast.LENGTH_SHORT).show();

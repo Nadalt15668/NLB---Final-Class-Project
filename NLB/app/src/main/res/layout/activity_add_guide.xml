@@ -19,8 +19,9 @@
         android:textColor="@android:color/white"
         android:textSize="40sp"
         android:textStyle="bold" />
+
     <TextView
-        android:id="@+id/guides_subtitle"
+        android:id="@+id/guidesWL_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
