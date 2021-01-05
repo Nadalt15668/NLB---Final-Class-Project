@@ -231,49 +231,35 @@ public class children_update extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog dialog = new AlertDialog.Builder(children_update.this).create();
+                String dialogMessage, dialogTitle;
                 if (Client.getCurrentUser().getGender().equals("זכר"))
                 {
-                    dialog.setTitle("אתה בטוח?");
-                    dialog.setMessage("האם אתה בטוח שאתה רוצה לבצע פעולה זאת? אין דרך לשחזר את הנתונים לאחר המחיקה");
-                    dialog.setCancelable(false);
-                    dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            reference = database.getReference("Children").child(parents_children.arrChildUID.get(parents_children.Position)).setValue(null);
-                            dialog.dismiss();
-                            Toast.makeText(children_update.this, "הילד הוסר בהצלחה!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(children_update.this, parents_hub.class));
-                        }
-                    });
-                    dialog.setButton(dialog.BUTTON_POSITIVE, "לא", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    dialogTitle = "אתה בטוח?";
+                    dialogMessage = "האם אתה בטוח שאתה רוצה לבצע פעולה זאת? אין דרך לשחזר את הנתונים לאחר המחיקה";
                 }
                 else
                 {
-                    dialog.setTitle("את בטוחה?");
-                    dialog.setMessage("האם את בטוחה שאת רוצה לבצע פעולה זאת? אין דרך לשחזר את הנתונים לאחר המחיקה");
-                    dialog.setCancelable(false);
-                    dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            reference = database.getReference("Children").child(parents_children.arrChildUID.get(parents_children.Position)).setValue(null);
-                            dialog.dismiss();
-                            Toast.makeText(children_update.this, "הילד הוסר בהצלחה!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(children_update.this, parents_hub.class));
-
-                        }
-                    });
-                    dialog.setButton(dialog.BUTTON_POSITIVE, "לא", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    dialogTitle = "את בטוחה?";
+                    dialogMessage = "האם את בטוחה שאת רוצה לבצע פעולה זאת? אין דרך לשחזר את הנתונים לאחר המחיקה";
                 }
+                dialog.setTitle(dialogTitle);
+                dialog.setMessage(dialogMessage);
+                dialog.setCancelable(false);
+                dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        reference = database.getReference("Children").child(parents_children.arrChildUID.get(parents_children.Position)).setValue(null);
+                        dialog.dismiss();
+                        Toast.makeText(children_update.this, "הילד הוסר בהצלחה!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(children_update.this, parents_hub.class));
+                    }
+                });
+                dialog.setButton(dialog.BUTTON_POSITIVE, "לא", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 dialog.show();
             }
         });

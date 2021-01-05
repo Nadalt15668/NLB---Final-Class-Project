@@ -66,13 +66,14 @@ public class guide_cardlsview_adap  extends BaseAdapter {
         final View myrow= inflater.inflate(R.layout.guide_listview,null,true);
 
         TextView guide_name = myrow.findViewById(R.id.guide_name);
-        guide_name.setText(arrGuideWL.get(position).getFirst_name() + arrGuideWL.get(position).getLast_name());
+        guide_name.setText(arrGuideWL.get(position).getFirst_name() +  " " + arrGuideWL.get(position).getLast_name());
         TextView guide_email = myrow.findViewById(R.id.guide_email);
         guide_email.setText(arrGuideWL.get(position).getEmail());
         TextView guide_gender = myrow.findViewById(R.id.guide_gender);
         guide_gender.setText(arrGuideWL.get(position).getGender());
         TextView guide_phone = myrow.findViewById(R.id.guide_phone);
         guide_phone.setText(arrGuideWL.get(position).getPhone());
+        this.prg.dismiss();
         return myrow;
     }
 }

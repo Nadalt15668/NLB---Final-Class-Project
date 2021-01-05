@@ -92,21 +92,28 @@ public class welcome_screen extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     Client.setCurrentUser(dataSnapshot.getValue(User.class));
                                     prg.dismiss();
-                                    if (Client.getCurrentUser().getType().equals("parent"))
-                                    {
-                                        startActivity(new Intent(welcome_screen.this,parents_hub.class));
-                                        Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else if(Client.getCurrentUser().getType().equals("admin"))
-                                    {
-                                        startActivity(new Intent(welcome_screen.this, admins_hub.class));
-                                        Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else
-                                    {
-                                        Client.setCurrentUser(null);
-                                        Client.setUID(null);
-                                        Toast.makeText(welcome_screen.this, "סוג המשתמש שלך לא מזוהה במערכת, אנא פנה למזכירות התנועה לבירור הבעיה", Toast.LENGTH_LONG).show();
+                                    switch (Client.getCurrentUser().getType()){
+                                        case("parent"):
+                                        {
+                                            startActivity(new Intent(welcome_screen.this,parents_hub.class));
+                                            //    Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
+                                        }break;
+                                        case("admin"):
+                                        {
+                                            startActivity(new Intent(welcome_screen.this, admins_hub.class));
+                                            Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
+                                        }break;
+                                        case("coordinator"):
+                                        {
+                                            startActivity(new Intent(welcome_screen.this, coordinators_hub.class));
+                                            Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
+                                        }break;
+                                        default:
+                                        {
+                                            Client.setCurrentUser(null);
+                                            Client.setUID(null);
+                                            Toast.makeText(welcome_screen.this, "סוג המשתמש שלך לא מזוהה במערכת, אנא פנה למזכירות התנועה לבירור הבעיה", Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 }
 

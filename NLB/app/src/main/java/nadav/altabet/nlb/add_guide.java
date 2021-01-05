@@ -3,7 +3,9 @@ package nadav.altabet.nlb;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -84,12 +86,41 @@ public class add_guide extends AppCompatActivity {
 
                 guideWL_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        reference = database.getReference("GuidesWL").child(arrGuideWLuid.get(position)).setValue(null);
-                        DatabaseReference newRef = guidesReference.push();
-                        reference = newRef.setValue(arrGuideWL.get(position));
-                        startActivity(new Intent(add_guide.this, coordinators_guides.class));
-                        Toast.makeText(add_guide.this, "המדריך נוסף בהצלחה!", Toast.LENGTH_SHORT).show();
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                        AlertDialog dialog = new AlertDialog.Builder(add_guide.this).create();
+                        String dialogMessage, dialogTitle;
+                        if (Client.getCurrentUser().getGender().equals("זכר"))
+                        {
+                            dialogTitle = "אתה בטוח?";
+                            dialogMessage = "האם אתה בטוח שאתה רוצה להוסיף?";
+                        }
+                        else
+                        {
+                            dialogTitle = "את בטוחה?";
+                            dialogMessage = "האם את בטוחה שאת רוצה להוסיף?";
+                        }
+                        dialog.setTitle(dialogTitle);
+                        dialog.setMessage(dialogMessage);
+                        dialog.setCancelable(false);
+                        dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                reference = database.getReference("GuidesWL").child(arrGuideWLuid.get(position)).setValue(null);
+                                DatabaseReference newRef = guidesReference.push();
+                                User guideWL = arrGuideWL.get(position);
+                                guideWL.setType("guideWL");
+                                reference = newRef.setValue(guideWL);
+                                startActivity(new Intent(add_guide.this, coordinators_guides.class));
+                                Toast.makeText(add_guide.this, "המדריך נוסף בהצלחה!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        dialog.setButton(dialog.BUTTON_POSITIVE, "לא", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
                     }
                 });
 

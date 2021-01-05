@@ -34,6 +34,7 @@ public class add_worker extends AppCompatActivity {
     private Button startDate, saveWorker;
     private Spinner spn_role;
     private ArrayList<String> arrRoles = new ArrayList<>();
+    private ArrayList<String> arrRoleKeys = new ArrayList<>();
     //-----------------------------------------
     private Calendar calendar = null;
     private int day,month,year,chosenStartYear,chosenStartMonth,chosenStartDay,
@@ -89,6 +90,16 @@ public class add_worker extends AppCompatActivity {
         });
     }
 
+    private int getIndex(Spinner spinner, String myString){
+        //הפעולה מחזירה את מיקום הסניף הבית הנבחר כדי לבחור בו ברגע שנכנסים לדף
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+
+        return 0;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +125,7 @@ public class add_worker extends AppCompatActivity {
                 {
                     String role = childDatabase.getValue(String.class);
                     arrRoles.add(role);
+                    arrRoleKeys.add(childDatabase.getKey());
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(add_worker.this, R.layout.customized_spinner, arrRoles);
                 spn_role.setAdapter(adapter);
@@ -145,7 +157,7 @@ public class add_worker extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String email = email_worker.getText().toString();
-                final String role = spn_role.getSelectedItem().toString();
+                final String role = arrRoleKeys.get(getIndex(spn_role, spn_role.getSelectedItem().toString()));
                 final Date startDate = new Date(chosenStartYear,chosenStartMonth,chosenStartDay);
                 Worker worker = new Worker(email,startDate,role);
                 DatabaseReference newRef = workerReference.push();
