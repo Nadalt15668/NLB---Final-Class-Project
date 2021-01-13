@@ -64,7 +64,6 @@ public class register extends AppCompatActivity {
     private FirebaseAuth firebaseAuth = null;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     private final DatabaseReference branchReference = FirebaseDatabase.getInstance().getReference("Branches");
-    private  DatabaseReference guidesWLReference = FirebaseDatabase.getInstance().getReference("GuidesWL");
     //--------------------------------------------------------------------------
     private void addPic()
     {
@@ -256,6 +255,7 @@ public class register extends AppCompatActivity {
                                     }
                                     else
                                     {
+                                        user.setType("guideWL");
                                         AlertDialog dialog = new AlertDialog.Builder(register.this).create();
                                         prg.dismiss();
                                         dialog.setTitle("הינך מתחת לגיל 18");
@@ -264,7 +264,7 @@ public class register extends AppCompatActivity {
                                         dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(final DialogInterface dialog, int which) {
-                                                guidesWLReference.child(UID).setValue(user).addOnCompleteListener(register.this, new OnCompleteListener<Void>() {
+                                                databaseReference.child(UID).setValue(user).addOnCompleteListener(register.this, new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {

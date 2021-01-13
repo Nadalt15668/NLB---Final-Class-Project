@@ -33,8 +33,7 @@ public class add_guide extends AppCompatActivity {
     private Task<Void> reference = null;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference guidesWLReference = database.getReference("GuidesWL");
-    DatabaseReference guidesReference = database.getReference("Guides");
+    DatabaseReference parentsReference = database.getReference("Parents");
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -68,14 +67,14 @@ public class add_guide extends AppCompatActivity {
 
         guideWL_listview = findViewById(R.id.guideWL_listview);
 
-        guidesWLReference.addValueEventListener(new ValueEventListener() {
+        parentsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();
                 for (DataSnapshot childDatabase: children)
                 {
                     User guideWL = childDatabase.getValue(User.class);
-                    if (guideWL.getBranch_name().equals(Client.getCurrentUser().getBranch_name()))
+                    if (guideWL.getType().equals("guideWL") && guideWL.getBranch_name().equals(Client.getCurrentUser().getBranch_name()))
                     {
                         arrGuideWL.add(guideWL);
                         arrGuideWLuid.add(childDatabase.getKey());
@@ -105,11 +104,7 @@ public class add_guide extends AppCompatActivity {
                         dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                reference = database.getReference("GuidesWL").child(arrGuideWLuid.get(position)).setValue(null);
-                                DatabaseReference newRef = guidesReference.push();
-                                User guideWL = arrGuideWL.get(position);
-                                guideWL.setType("guide");
-                                reference = newRef.setValue(guideWL);
+                                reference = database.getReference("Parents").child(arrGuideWLuid.get(position)).child("type").setValue("guide");
                                 startActivity(new Intent(add_guide.this, coordinators_guides.class));
                                 Toast.makeText(add_guide.this, "המדריך נוסף בהצלחה!", Toast.LENGTH_SHORT).show();
                             }
