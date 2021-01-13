@@ -35,6 +35,7 @@ public class admins_hub extends AppCompatActivity {
         setContentView(R.layout.activity_admins_hub);
         profile = findViewById(R.id.myProfileAdmin);
         workers = findViewById(R.id.workersAdmin);
+        admins_hub_title = findViewById(R.id.admins_hub_title);
 
         if (Client.getCurrentUser().getGender().equals("זכר"))
             admins_hub_title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");

@@ -34,6 +34,7 @@ public class coordinators_hub extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coordinators_hub);
         guides = findViewById(R.id.guidesCoordinator);
+        coordinators_hub_title = findViewById(R.id.coordinators_hub_title);
 
         if (Client.getCurrentUser().getGender().equals("זכר"))
             coordinators_hub_title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
