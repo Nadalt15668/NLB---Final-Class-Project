@@ -5,6 +5,6 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="nlb_blue">#48BEFF</color>
     <color name="blank">#00FFFFFF</color>
-
+    <color name="nlb_blue_dark">#40A1D6</color>
     <color name="black_overlay">#66000000</color>
 </resources>
