@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -31,6 +32,7 @@ public class guides_activities extends AppCompatActivity {
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
     private StorageReference ref;
+    private ProgressDialog prg;
 
     public void download(){
         storageReference = firebaseStorage.getInstance().getReference();
@@ -40,6 +42,7 @@ public class guides_activities extends AppCompatActivity {
             public void onSuccess(Uri uri) {
                 String url = uri.toString();
                 downloadFiles(guides_activities.this,"טופס כתיבת פעולה", ".docx",  DIRECTORY_DOWNLOADS, url);
+                prg.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -66,9 +69,15 @@ public class guides_activities extends AppCompatActivity {
 
         download_file = findViewById(R.id.btnDownloadFile);
 
+        prg = new ProgressDialog(guides_activities.this);
+        prg.setCancelable(false);
+        prg.setTitle("מוריד קבצים");
+        prg.setMessage("אנא המתן להורדת הקבצים");
+
         download_file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                prg.show();
                 download();
             }
         });

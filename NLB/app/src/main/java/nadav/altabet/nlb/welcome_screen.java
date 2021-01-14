@@ -103,9 +103,14 @@ public class welcome_screen extends AppCompatActivity {
                                             startActivity(new Intent(welcome_screen.this, admins_hub.class));
                                             Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
                                         }break;
-                                        case("coordinator"):
+                                        case("worker"):
                                         {
                                             startActivity(new Intent(welcome_screen.this, coordinators_hub.class));
+                                            Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
+                                        }break;
+                                        case("guide"):
+                                        {
+                                            startActivity(new Intent(welcome_screen.this, guides_hub.class));
                                             Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
                                         }break;
                                         default:

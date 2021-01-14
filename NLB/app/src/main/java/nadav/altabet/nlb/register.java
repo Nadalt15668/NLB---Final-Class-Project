@@ -227,13 +227,14 @@ public class register extends AppCompatActivity {
                     if (female.isChecked())
                         gender = "נקבה";
                     final String finalGender = gender;
+                    final User user = new User(email, fstName, lstName, id, city, address, phone, finalPic, dateOfBirth, finalGender, type, branchName);
+                    if (dateOfBirth.checkForAbove18(new Date(year, month, day)) > 18) {
                         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                                     final String UID = currentUser.getUid();
-                                    final User user = new User(email, fstName, lstName, id, city, address, phone, finalPic, dateOfBirth, finalGender, type, branchName);
                                     if (dateOfBirth.checkForAbove18(new Date(year, month, day)) > 18) {
                                         databaseReference.child(UID).setValue(user).addOnCompleteListener(register.this, new OnCompleteListener<Void>() {
                                             @Override
@@ -252,49 +253,68 @@ public class register extends AppCompatActivity {
                                                 Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                             }
                                         });
-                                    }
-                                    else
-                                    {
-                                        user.setType("guideWL");
-                                        AlertDialog dialog = new AlertDialog.Builder(register.this).create();
-                                        prg.dismiss();
-                                        dialog.setTitle("הינך מתחת לגיל 18");
-                                        dialog.setMessage("לפי תאריך הלידה שלך הינך מתחת לגיל 18, האם להוסיף אותך כמדריך/ה?");
-                                        dialog.setCancelable(false);
-                                        dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(final DialogInterface dialog, int which) {
-                                                databaseReference.child(UID).setValue(user).addOnCompleteListener(register.this, new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            dialog.dismiss();
-                                                            Toast.makeText(register.this, "ההרשמה הסתיימה בהצלחה!", Toast.LENGTH_SHORT).show();
-                                                            if (chosen)
-                                                                addPic();
-                                                            startActivity(new Intent(register.this, welcome_screen.class));
-                                                        }
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                                    }
-                                                });
 
-                                            }
-                                        });
-                                        dialog.show();
                                     }
                                 }
                             }
                         }).addOnFailureListener(register.this, new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    prg.dismiss();
+                                    Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    }
+                    else
+                    {
+                        user.setType("guideWL");
+                        AlertDialog dialog = new AlertDialog.Builder(register.this).create();
+                        prg.dismiss();
+                        dialog.setTitle("הינך מתחת לגיל 18");
+                        dialog.setMessage("לפי תאריך הלידה שלך הינך מתחת לגיל 18, האם להוסיף אותך כמדריך/ה?");
+                        dialog.setCancelable(false);
+                        dialog.setButton(dialog.BUTTON_NEGATIVE, "כן", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onFailure(@NonNull Exception e) {
-                                prg.dismiss();
-                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            public void onClick(final DialogInterface dialog, int which) {
+                                firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        String UID = firebaseAuth.getUid();
+                                        databaseReference.child(UID).setValue(user).addOnCompleteListener(register.this, new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    dialog.dismiss();
+                                                    Toast.makeText(register.this, "ההרשמה הסתיימה בהצלחה!", Toast.LENGTH_SHORT).show();
+                                                    if (chosen)
+                                                        addPic();
+                                                    startActivity(new Intent(register.this, welcome_screen.class));
+                                                }
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         });
+                        dialog.setButton(dialog.BUTTON_NEUTRAL, "לא", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(register.this, "אין באפשרותך ליצור משתמש מתחת לגיל 18", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(register.this, welcome_screen.class));
+                            }
+                        });
+                        dialog.show();
+                    }
                 }
                 else
                 {

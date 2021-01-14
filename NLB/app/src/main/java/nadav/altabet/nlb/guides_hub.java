@@ -3,7 +3,9 @@ package nadav.altabet.nlb;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class guides_hub extends AppCompatActivity {
@@ -21,5 +23,12 @@ public class guides_hub extends AppCompatActivity {
             guides_hub_title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
         else
             guides_hub_title.setText("ברוכה הבאה " + Client.getCurrentUser().getFirst_name() + "!");
+
+        my_activities.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(guides_hub.this, guides_activities.class));
+            }
+        });
     }
 }
