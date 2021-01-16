@@ -399,7 +399,7 @@
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/button_design"
                 android:fontFamily="@font/ozrad_bold"
-                android:text="@string/סיום"
+                android:text="@string/סיום_הרשמה"
                 android:textColor="@android:color/white"
                 android:textSize="30sp"
                 android:textStyle="bold" />

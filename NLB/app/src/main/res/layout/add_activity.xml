@@ -1,56 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/nlb_blue"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/nlb_blue"
+    app:cardCornerRadius="30dp"
     android:layout_width="match_parent"
+    android:padding="5dp"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/add_activity_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/ozrad_bold"
-        android:text="@string/הוסף_ילד"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/fstNameEditTxt"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/שם_פעולה"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:textColor="@android:color/white"
-        android:inputType="textPersonName"
-        android:textColorHint="@android:color/white"
-        android:backgroundTint="@android:color/white"
-        android:textSize="20sp"
-        />
-
-    <TextView
-        android:id="@+id/fileNameTxtView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_gravity="center"
-        android:textColor="@android:color/white"
-        android:text="TextView" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/add_activity_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/ozrad_bold"
+            android:text="@string/הוסף_ילד"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/activityNameEditTxt"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@android:color/white"
+            android:gravity="center"
+            android:hint="@string/שם_פעולה"
+            android:inputType="textPersonName"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/activityClass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ozrad_bold"
+                android:text="@string/פעולה_לשכבת_גיל"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/fileNameTxtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/לא_נבחרה_פעולה"
+            android:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnActivityDate"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="11dp"
+                android:background="@drawable/button_design"
+                android:backgroundTint="@color/nlb_blue_dark"
+                android:fontFamily="@font/ozrad_bold"
+                android:text="@string/תאריך_פעולה"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnChooseFile"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="11dp"
+                android:background="@drawable/button_design"
+                android:backgroundTint="@color/nlb_blue_dark"
+                android:fontFamily="@font/ozrad_bold"
+                android:text="@string/הוסף_פעולה"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/btnActivityDate"
-            android:layout_width="120dp"
+            android:id="@+id/btnAddActivity"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
@@ -58,26 +122,11 @@
             android:background="@drawable/button_design"
             android:backgroundTint="@color/nlb_blue_dark"
             android:fontFamily="@font/ozrad_bold"
-            android:text="@string/בחירת_תמונה"
+            android:layout_marginTop="10dp"
+            android:text="@string/סיום"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnChooseFile"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="11dp"
-            android:background="@drawable/button_design"
-            android:backgroundTint="@color/nlb_blue_dark"
-            android:fontFamily="@font/ozrad_bold"
-            android:text="@string/הוסף_פעולה"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
     </LinearLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

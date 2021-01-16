@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">NLB</string>
-    //כניסה
+
     <string name="כניסת_מנהלים">  כניסת מנהלים</string>
     <string name="כניסת_הורים">  כניסת הורים</string>
-
-    //פרטי הרשמה והוספה
     <string name="אימייל">אימייל:</string>
     <string name="סיסמא">סיסמא:</string>
     <string name="שם_פרטי">שם פרטי:</string>
@@ -23,12 +21,9 @@
     <string name="בית_ספר">בית ספר:</string>
     <string name="סניף">סניף הבית</string>
     <string name="תפקיד">תפקיד: </string>
-
-
-    //כפתורים
     <string name="התחברות">התחברות</string>
     <string name="בחירת_תאריך">בחר תאריך לידה</string>
-    <string name="סיום">סיים הרשמה</string>
+    <string name="סיום_הרשמה">סיים הרשמה</string>
     <string name="בחירת_תמונה">בחר תמונה</string>
     <string name="חנות">איזור התשלומים</string>
     <string name="פרופיל">הפרופיל שלי</string>
@@ -43,8 +38,6 @@
     <string name="עדכון_נתונים">עדכון נתונים</string>
     <string name="בחר_תאריך_התחלה">תחילת תקופת העבודה (חובה)</string>
     <string name="בחר_תאריך_סיום">סיום תקופת העבודה (לא חובה)</string>
-
-    //כותרות והערות
     <string name="הרשמה">הרשמה</string>
     <string name="ברוך_הבא">ברוך הבא </string>
     <string name="הוסף_ילד">הוסף ילד</string>
@@ -59,4 +52,8 @@
     <string name="תאריך_סיום_עובד_הערה">*על מנת לאפס את תאריך הסיום יש ללחוץ לחיצה ארוכה על הכפתור לבחירת תאריך הסיום</string>
     <string name="שם_פעולה">שם פעולה</string>
     <string name="הוסף_פעולה">הוסף פעולה</string>
+    <string name="סיום">סיום</string>
+    <string name="תאריך_פעולה">בחר תאריך לפעולה</string>
+    <string name="לא_נבחרה_פעולה">לא נבחרה פעולה</string>
+    <string name="פעולה_לשכבת_גיל">פעולה לכיתות:</string>
 </resources>

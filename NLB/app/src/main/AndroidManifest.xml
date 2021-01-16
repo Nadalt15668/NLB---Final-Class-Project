@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nadav.altabet.nlb">
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +21,6 @@
         <activity android:name=".add_worker" />
         <activity android:name=".admins_workers" />
         <activity android:name=".admins_hub" />
-        <activity android:name=".admin_login" />
         <activity android:name=".children_update" />
         <activity android:name=".add_child" />
         <activity android:name=".parents_children" />
