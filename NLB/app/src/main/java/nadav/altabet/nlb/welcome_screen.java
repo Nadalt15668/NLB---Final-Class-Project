@@ -3,14 +3,22 @@ package nadav.altabet.nlb;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +37,10 @@ public class welcome_screen extends AppCompatActivity {
     private Button register, login;
     private ProgressDialog prg;
     private EditText email, password;
+    private ImageView nlb_logo;
+    private TextView mBatteryLevelText;
+    private ProgressBar mBatteryLevelProgress;
+    private BroadcastReceiver mReceiver;
     //---------------------------------------------------
     private FirebaseAuth firebaseAuth = null;
     private FirebaseDatabase firebaseDatabase = null;
@@ -48,6 +60,21 @@ public class welcome_screen extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
+    private class BatteryBroadcastReceiver extends BroadcastReceiver
+    {
+        private final static String BATTERY_LEVEL = "level";
+
+
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            int level = intent.getIntExtra(BATTERY_LEVEL, 0);
+
+            mBatteryLevelText.setText("Battery level:" + " " + level);
+            mBatteryLevelProgress.setProgress(level);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -58,6 +85,7 @@ public class welcome_screen extends AppCompatActivity {
         login = findViewById(R.id.login);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
+        nlb_logo = findViewById(R.id.nlb_logo);
 
         prg = new ProgressDialog(welcome_screen.this);
         prg.setTitle("מעלה נתונים");
@@ -68,6 +96,30 @@ public class welcome_screen extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Parents");
+
+        nlb_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog builder = new AlertDialog.Builder(welcome_screen.this).create();
+                View view = getLayoutInflater().inflate(R.layout.broadcast_reciever,null);
+                builder.setView(view);
+                mBatteryLevelText = view.findViewById(R.id.textView);
+                mBatteryLevelProgress = (ProgressBar) view.findViewById(R.id.progressBar);
+                mReceiver = new BatteryBroadcastReceiver();
+                builder.setTitle("Battery Level");
+                builder.setCancelable(false);
+                builder.setButton(builder.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        unregisterReceiver(mReceiver);
+                        builder.dismiss();
+                    }
+                });
+                builder.show();
+                registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+            }
+        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
