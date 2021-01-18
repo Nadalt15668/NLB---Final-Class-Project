@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/menu__parents_homepage"
+        android:icon="@drawable/homepage_100px"
+        android:title="@string/דף_בית"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/menu__parents_profile"
+        android:icon="@drawable/profile_100px"
+        android:title="@string/פרופיל"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/menu_parents_online_store"
+        android:icon="@drawable/online_store_100px"
+        android:title="@string/חנות"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/menu_parents_children"
+        android:icon="@drawable/children_100px"
+        android:title="@string/ילדים"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/menu_parents_logout"
+        android:icon="@drawable/logout_100px"
+        android:title="@string/התנתקות"
+        app:showAsAction="always"
+        />
+</menu>

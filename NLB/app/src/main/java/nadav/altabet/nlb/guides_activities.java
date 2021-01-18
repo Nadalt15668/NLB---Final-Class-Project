@@ -40,6 +40,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
@@ -63,6 +64,10 @@ public class guides_activities extends AppCompatActivity {
     private ProgressDialog progressDialog;
     int chosenDay = -1, chosenMonth = -1, chosenYear = -1;
     int day, month, year;
+
+    private AlertDialog.Builder builder;
+    private View view;
+    private AlertDialog dialog;
 
     private DatabaseReference classesReference = FirebaseDatabase.getInstance().getReference("Classes");
 
@@ -119,7 +124,7 @@ public class guides_activities extends AppCompatActivity {
     private void chooseFile() {
         Intent intent = new Intent();
         intent.setType("docx/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         startActivityForResult(intent, 86);
     }
     private void uploadFile(Uri docxUri, final Activity activity)
@@ -147,7 +152,11 @@ public class guides_activities extends AppCompatActivity {
                        @Override
                        public void onComplete(@NonNull Task<Void> task) {
                            if (task.isSuccessful())
+                           {
                                Toast.makeText(guides_activities.this, "הפעולה הועלתה בהצלחה!", Toast.LENGTH_SHORT).show();
+                               dialog.dismiss();
+                               startActivity(new Intent(guides_activities.this, guides_hub.class));
+                           }
                            else
                                Toast.makeText(guides_activities.this, "העלאת הפעולה נכשלה", Toast.LENGTH_SHORT).show();
                        }
@@ -192,9 +201,9 @@ public class guides_activities extends AppCompatActivity {
         add_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(guides_activities.this);
-                final View view = getLayoutInflater().inflate(R.layout.add_activity, null);
 
+                builder = new AlertDialog.Builder(guides_activities.this);
+                view = getLayoutInflater().inflate(R.layout.add_activity, null);
                 activity_name = view.findViewById(R.id.activityNameEditTxt);
                 activity_date = view.findViewById(R.id.btnActivityDate);
                 choose_file = view.findViewById(R.id.btnChooseFile);
@@ -202,81 +211,77 @@ public class guides_activities extends AppCompatActivity {
                 file_name = view.findViewById(R.id.fileNameTxtView);
                 activity_class = view.findViewById(R.id.activityClass);
 
-                classesReference.addValueEventListener(new ValueEventListener() {
+                //classesReference.addValueEventListener(new ValueEventListener() {
+                //    @Override
+                //    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                //        for (DataSnapshot child: children) {
+                //            String activityClass = child.getValue(String.class);
+                //            classArray[Integer.parseInt(child.getKey())] = activityClass;
+                //        }
+                //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(guides_activities.this, R.layout.customized_spinner, classArray);
+                //        activity_class.setAdapter(adapter);
+                //
+                //    }
+//
+                //    @Override
+                //    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+                //    }
+                //});
+
+                //Choosing Activity Date:
+                Calendar calendar = Calendar.getInstance();
+                day  = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH);
+                year = calendar.get(Calendar.YEAR);
+
+                activity_date.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                        for (DataSnapshot child: children) {
-                            String activityClass = child.getValue(String.class);
-                            classArray[Integer.parseInt(child.getKey())] = activityClass;
-                        }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(guides_activities.this, R.layout.customized_spinner, classArray);
-                        activity_class.setAdapter(adapter);
-
-
-                        //Choosing Activity Date:
-                        Calendar calendar = Calendar.getInstance();
-                        day  = calendar.get(Calendar.DAY_OF_MONTH);
-                        month = calendar.get(Calendar.MONTH);
-                        year = calendar.get(Calendar.YEAR);
-
-                        activity_date.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(guides_activities.this, new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onClick(View v) {
-                                DatePickerDialog datePickerDialog = new DatePickerDialog(guides_activities.this, new DatePickerDialog.OnDateSetListener() {
-                                    @Override
-                                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                        activity_date.setText(dayOfMonth + "/" + (month+1) + "/" + year);
-                                        chosenDay= dayOfMonth;
-                                        chosenMonth= month+1;
-                                        chosenYear= year;
-                                    }
-                                },year,month,day);
-                                datePickerDialog.show();
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                activity_date.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                                chosenDay= dayOfMonth;
+                                chosenMonth= month+1;
+                                chosenYear= year;
                             }
-                        });
-
-                        //Choosing An Activity File For Uploading:
-                        FirebaseStorage storage = FirebaseStorage.getInstance();
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                        choose_file.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (ContextCompat.checkSelfPermission(guides_activities.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                                {
-                                    chooseFile();
-                                }
-                                else
-                                    ActivityCompat.requestPermissions(guides_activities.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-                            }
-                        });
-
-                        btn_add_activity.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (docxUri != null && (!activity_name.getText().toString().isEmpty() )&& chosenDay != -1 && chosenMonth != -1 && chosenYear != -1)
-                                {
-                                    Activity activity = new Activity(activity_name.getText().toString(), new Date(chosenYear,chosenMonth,chosenDay),
-                                            new Date(year,month,day),activity_class.getSelectedItem().toString());
-                                    uploadFile(docxUri, activity);
-                                }
-                                else
-                                    Toast.makeText(guides_activities.this, "יש למלא את כל השדות", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        builder.setView(view);
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        },year,month,day);
+                        datePickerDialog.show();
                     }
                 });
 
+                //Choosing An Activity File For Uploading:
+                choose_file.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ContextCompat.checkSelfPermission(guides_activities.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                        {
+                            chooseFile();
+                        }
+                        else
+                            ActivityCompat.requestPermissions(guides_activities.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                    }
+                });
+
+                btn_add_activity.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (docxUri != null && (!activity_name.getText().toString().isEmpty() )&& chosenDay != -1 && chosenMonth != -1 && chosenYear != -1)
+                        {
+                            Activity activity = new Activity(activity_name.getText().toString(), new Date(chosenYear,chosenMonth,chosenDay),
+                                    new Date(year,month,day),activity_class.getSelectedItem().toString());
+                            uploadFile(docxUri, activity);
+                        }
+                        else
+                            Toast.makeText(guides_activities.this, "יש למלא את כל השדות", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.setView(view);
+                dialog = builder.create();
+                dialog.show();
             }
 
         });
