@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu__admins_homepage"
+        android:icon="@drawable/homepage_100px"
+        android:title="@string/דף_בית"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/menu_admins_profile"
+        android:icon="@drawable/profile_100px"
+        android:title="@string/פרופיל"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/menu_admins_workers"
+        android:icon="@drawable/worker_100px"
+        android:title="@string/עובדים"
+        app:showAsAction="always"
+        />
+</menu>
