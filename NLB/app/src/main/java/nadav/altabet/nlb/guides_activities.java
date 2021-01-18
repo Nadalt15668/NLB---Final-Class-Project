@@ -16,6 +16,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -70,6 +73,27 @@ public class guides_activities extends AppCompatActivity {
     private AlertDialog dialog;
 
     private DatabaseReference classesReference = FirebaseDatabase.getInstance().getReference("Classes");
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.guides_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu__guides_homepage:
+                startActivity(new Intent(this, guides_hub.class));
+                return true;
+            case R.id.menu_guides_activities:
+                startActivity(new Intent(this, guides_activities.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void download(){
         storageReference = firebaseStorage.getInstance().getReference();

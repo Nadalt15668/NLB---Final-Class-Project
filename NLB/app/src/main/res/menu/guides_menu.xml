@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu__guides_homepage"
+        android:icon="@drawable/homepage_100px"
+        android:title="@string/דף_בית"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/menu_guides_activities"
+        android:icon="@drawable/activities_100px"
+        android:title="@string/פעולות"
+        app:showAsAction="always"
+        />
+</menu>
