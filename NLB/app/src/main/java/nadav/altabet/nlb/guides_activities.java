@@ -58,12 +58,12 @@ public class guides_activities extends AppCompatActivity {
     private Spinner activity_class;
     private FloatingActionButton add_activity;
     private Button download_file;
-    private FirebaseStorage firebaseStorage;
+    private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     private StorageReference storageReference;
     private StorageReference ref;
     private ProgressDialog prg;
     private Uri docxUri;
-    private String[] classArray = new String[12];
+    private ArrayList<String> classArray = new ArrayList<>();
     private ProgressDialog progressDialog;
     int chosenDay = -1, chosenMonth = -1, chosenYear = -1;
     int day, month, year;
@@ -146,9 +146,9 @@ public class guides_activities extends AppCompatActivity {
     }
 
     private void chooseFile() {
-        Intent intent = new Intent();
-        intent.setType("docx/*");
-        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        Intent intent = new Intent("com.sec.android.app.myfiles.PICK_DATA");
+        intent.putExtra("docx", "/");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
         startActivityForResult(intent, 86);
     }
     private void uploadFile(Uri docxUri, final Activity activity)
@@ -235,25 +235,6 @@ public class guides_activities extends AppCompatActivity {
                 file_name = view.findViewById(R.id.fileNameTxtView);
                 activity_class = view.findViewById(R.id.activityClass);
 
-                //classesReference.addValueEventListener(new ValueEventListener() {
-                //    @Override
-                //    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                //        for (DataSnapshot child: children) {
-                //            String activityClass = child.getValue(String.class);
-                //            classArray[Integer.parseInt(child.getKey())] = activityClass;
-                //        }
-                //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(guides_activities.this, R.layout.customized_spinner, classArray);
-                //        activity_class.setAdapter(adapter);
-                //
-                //    }
-//
-                //    @Override
-                //    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-                //    }
-                //});
-
                 //Choosing Activity Date:
                 Calendar calendar = Calendar.getInstance();
                 day  = calendar.get(Calendar.DAY_OF_MONTH);
@@ -303,9 +284,30 @@ public class guides_activities extends AppCompatActivity {
                     }
                 });
 
-                builder.setView(view);
-                dialog = builder.create();
-                dialog.show();
+
+                classesReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                        for (DataSnapshot child: children) {
+                            String activityClass = child.getValue(String.class);
+                            classArray.add(activityClass);
+                        }
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(guides_activities.this, R.layout.customized_spinner, classArray);
+                        activity_class.setAdapter(adapter);
+                        
+                        builder.setView(view);
+                        dialog = builder.create();
+                        dialog.show();
+
+                    }
+                    //
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+                    }
+                });
+
             }
 
         });
