@@ -16,6 +16,9 @@ public class Activity {
         this.file_url = "";
     }
 
+    public Activity() {
+    }
+
     public String getActivity_name() {
         return activity_name;
     }

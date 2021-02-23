@@ -20,10 +20,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +58,7 @@ public class guides_activities extends AppCompatActivity {
     private Button btn_add_activity;
     private TextView file_name;
     private Spinner activity_class;
+    private ListView activity_listview;
     private FloatingActionButton add_activity;
     private Button download_file;
     private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
@@ -64,6 +67,8 @@ public class guides_activities extends AppCompatActivity {
     private ProgressDialog prg;
     private Uri docxUri;
     private ArrayList<String> classArray = new ArrayList<>();
+    private ArrayList<Activity> activityArray = new ArrayList<>();
+    private ArrayList<String> fileArray = new ArrayList<>();
     private ProgressDialog progressDialog;
     int chosenDay = -1, chosenMonth = -1, chosenYear = -1;
     int day, month, year;
@@ -73,6 +78,9 @@ public class guides_activities extends AppCompatActivity {
     private AlertDialog dialog;
 
     private DatabaseReference classesReference = FirebaseDatabase.getInstance().getReference("Classes");
+    private DatabaseReference activitiesReference = FirebaseDatabase.getInstance().getReference("Activities").child(Client.getCurrentUser().getBranch_name()).
+    child(Client.getCurrentUser().getFirst_name() + Client.getCurrentUser().getLast_name());
+    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,6 +128,7 @@ public class guides_activities extends AppCompatActivity {
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalFilesDir(context, destinationDirectory, fileName + fileExtension);
         downloadManager.enqueue(request);
+        Toast.makeText(context, "הפעולה הורדה בהצלחה!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -146,9 +155,12 @@ public class guides_activities extends AppCompatActivity {
     }
 
     private void chooseFile() {
-        Intent intent = new Intent("com.sec.android.app.myfiles.PICK_DATA");
-        intent.putExtra("docx", "/");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        //Intent intent = new Intent("com.sec.android.app.myfiles.PICK_DATA");
+        //intent.putExtra("docx", "/");
+        //intent.addCategory(Intent.CATEGORY_DEFAULT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
         startActivityForResult(intent, 86);
     }
     private void uploadFile(Uri docxUri, final Activity activity)
@@ -158,7 +170,8 @@ public class guides_activities extends AppCompatActivity {
            progressDialog.setTitle("מעלה פעולה...");
            progressDialog.setProgress(0);
            progressDialog.show();
-           final String fileName = System.currentTimeMillis()+"";
+           final String fileName = System.currentTimeMillis()+".docx";
+            final String fileName1 = System.currentTimeMillis()+"";
            StorageReference storageReference = firebaseStorage.getReference();
 
            storageReference.child("Activities").child(Client.getCurrentUser().getBranch_name()).
@@ -172,7 +185,7 @@ public class guides_activities extends AppCompatActivity {
                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                    databaseReference.child("Activities").child(Client.getCurrentUser().getBranch_name()).
                            child(Client.getCurrentUser().getFirst_name() + Client.getCurrentUser().getLast_name()).
-                           child(fileName).setValue(activity).addOnCompleteListener(new OnCompleteListener<Void>() {
+                           child(fileName1).setValue(activity).addOnCompleteListener(new OnCompleteListener<Void>() {
                        @Override
                        public void onComplete(@NonNull Task<Void> task) {
                            if (task.isSuccessful())
@@ -208,6 +221,7 @@ public class guides_activities extends AppCompatActivity {
 
         download_file = findViewById(R.id.btnDownloadFile);
         add_activity = findViewById(R.id.add_fab_activity);
+        activity_listview = findViewById(R.id.activity_listview);
 
         prg = new ProgressDialog(guides_activities.this);
         prg.setCancelable(false);
@@ -312,7 +326,45 @@ public class guides_activities extends AppCompatActivity {
 
         });
 
+        activitiesReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child: children) {
+                    Activity activity = child.getValue(Activity.class);
+                    activityArray.add(activity);
+                    fileArray.add(child.getKey());
+                }
+                activity_cardlsview_adap adap = new activity_cardlsview_adap(activityArray, guides_activities.this);
+                activity_listview.setAdapter(adap);
+                
+                activity_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                        ref = FirebaseStorage.getInstance().getReference("Activities").child(Client.getCurrentUser().getBranch_name()).
+                                child(Client.getCurrentUser().getFirst_name() + Client.getCurrentUser().getLast_name()).child(fileArray.get(position) + ".docx");
+                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String url = uri.toString();
+                                downloadFiles(guides_activities.this, fileArray.get(position), ".docx",  DIRECTORY_DOWNLOADS, url);
+                                prg.dismiss();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(guides_activities.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
 
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(guides_activities.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
