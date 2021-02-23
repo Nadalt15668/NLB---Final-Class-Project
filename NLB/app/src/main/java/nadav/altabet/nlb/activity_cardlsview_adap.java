@@ -68,17 +68,21 @@ public class activity_cardlsview_adap extends BaseAdapter {
         TextView activity_class = myrow.findViewById(R.id.activity_class);
         TextView activity_date = myrow.findViewById(R.id.activity_date);
         TextView creation_date = myrow.findViewById(R.id.creation_date);
+        TextView activity_time = myrow.findViewById(R.id.activity_time);
         String activityDate = this.arrActivities.get(position).getActivity_date().getDay() + "/" +
                 this.arrActivities.get(position).getActivity_date().getMonth() + "/" +
                 this.arrActivities.get(position).getActivity_date().getYear();
         String creationDate = this.arrActivities.get(position).getCreation_date().getDay() + "/" +
                 this.arrActivities.get(position).getCreation_date().getMonth() + "/" +
                 this.arrActivities.get(position).getCreation_date().getYear();
+        String activityTime = this.arrActivities.get(position).getActivity_date().getHour() + ":" +
+                this.arrActivities.get(position).getActivity_date().getMinute();
 
         activity_name.setText(arrActivities.get(position).getActivity_name());
         activity_class.setText(arrActivities.get(position).getActivity_class());
         activity_date.setText(activityDate);
         creation_date.setText(creationDate);
+        activity_time.setText(activityTime);
         return myrow;
     }
 }

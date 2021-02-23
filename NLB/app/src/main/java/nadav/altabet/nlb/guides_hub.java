@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 public class guides_hub extends AppCompatActivity {
@@ -14,6 +15,8 @@ public class guides_hub extends AppCompatActivity {
     private CardView my_activities;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guides_hub);
         guides_hub_title = findViewById(R.id.guides_hub_title);

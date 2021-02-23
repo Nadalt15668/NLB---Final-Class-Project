@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,14 +56,11 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class guides_activities extends AppCompatActivity {
 
     private EditText activity_name;
-    private Button activity_date;
-    private Button choose_file;
-    private Button btn_add_activity;
+    private Button activity_date, btn_add_activity, choose_file, download_file, activity_time;
     private TextView file_name;
     private Spinner activity_class;
     private ListView activity_listview;
     private FloatingActionButton add_activity;
-    private Button download_file;
     private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     private StorageReference storageReference;
     private StorageReference ref;
@@ -70,8 +70,8 @@ public class guides_activities extends AppCompatActivity {
     private ArrayList<Activity> activityArray = new ArrayList<>();
     private ArrayList<String> fileArray = new ArrayList<>();
     private ProgressDialog progressDialog;
-    int chosenDay = -1, chosenMonth = -1, chosenYear = -1;
-    int day, month, year;
+    int chosenDay = -1, chosenMonth = -1, chosenYear = -1, chosenHour = -1, chosenMinute = -1;
+    int day, month, year, hour, minute;
 
     private AlertDialog.Builder builder;
     private View view;
@@ -146,7 +146,7 @@ public class guides_activities extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 86 && resultCode == RESULT_OK && data != null) {
             docxUri = data.getData();
-            file_name.setText(data.getData().getLastPathSegment() + "הקובץ שנבחר: ");
+            file_name.setText("הקובץ שנבחר: " + data.getData().getLastPathSegment());
         }
         else
         {
@@ -216,6 +216,8 @@ public class guides_activities extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guides_activities);
 
@@ -248,12 +250,15 @@ public class guides_activities extends AppCompatActivity {
                 btn_add_activity = view.findViewById(R.id.btnAddActivity);
                 file_name = view.findViewById(R.id.fileNameTxtView);
                 activity_class = view.findViewById(R.id.activityClass);
+                activity_time = view.findViewById(R.id.btnActivityTime);
 
-                //Choosing Activity Date:
+                //Choosing Activity Date & Time:
                 Calendar calendar = Calendar.getInstance();
                 day  = calendar.get(Calendar.DAY_OF_MONTH);
                 month = calendar.get(Calendar.MONTH);
                 year = calendar.get(Calendar.YEAR);
+                hour = calendar.get(Calendar.HOUR_OF_DAY);
+                minute = calendar.get(Calendar.MINUTE);
 
                 activity_date.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -268,6 +273,20 @@ public class guides_activities extends AppCompatActivity {
                             }
                         },year,month,day);
                         datePickerDialog.show();
+                    }
+                });
+                activity_time.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(guides_activities.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                activity_time.setText(hourOfDay + ":" + minute);
+                                chosenHour = hourOfDay;
+                                chosenMinute = minute;
+                            }
+                        },hour,minute,true);
+                        timePickerDialog.show();
                     }
                 });
 
@@ -287,10 +306,11 @@ public class guides_activities extends AppCompatActivity {
                 btn_add_activity.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (docxUri != null && (!activity_name.getText().toString().isEmpty() )&& chosenDay != -1 && chosenMonth != -1 && chosenYear != -1)
+                        if (docxUri != null && (!activity_name.getText().toString().isEmpty()) && chosenDay != -1 && chosenMonth != -1 && chosenYear != -1 &&
+                        chosenHour != -1 && chosenMinute != -1)
                         {
-                            Activity activity = new Activity(activity_name.getText().toString(), new Date(chosenYear,chosenMonth,chosenDay),
-                                    new Date(year,month,day),activity_class.getSelectedItem().toString());
+                            Activity activity = new Activity(activity_name.getText().toString(), new Date(chosenYear,chosenMonth,chosenDay, chosenHour, chosenMinute),
+                                    new Date(year,month,day,hour,minute),activity_class.getSelectedItem().toString());
                             uploadFile(docxUri, activity);
                         }
                         else
