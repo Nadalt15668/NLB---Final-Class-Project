@@ -49,14 +49,14 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15sp"
                     android:layout_marginEnd="5dp"
-                    app:srcCompat="@drawable/activity_register_100px" />
+                    app:srcCompat="@drawable/activities_list_100px" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/ozrad_bold"
-                    android:text="@string/הרשמה_לפעולה"
+                    android:text="@string/פעולות_רשומות"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />

@@ -1,5 +1,7 @@
 package nadav.altabet.nlb;
 
+import java.util.ArrayList;
+
 public class Activity {
 
     private String activity_name;
@@ -7,13 +9,18 @@ public class Activity {
     private Date creation_date;
     private String  activity_class;
     private String file_url;
+    private ArrayList<String> childUID;
+    private String guideName;
 
-    public Activity(String activity_name, Date activity_date, Date creation_date, String activity_class) {
+    public Activity(String activity_name, Date activity_date, Date creation_date, String activity_class, String guideName) {
         this.activity_name = activity_name;
         this.activity_date = activity_date;
         this.creation_date = creation_date;
         this.activity_class = activity_class;
         this.file_url = "";
+        this.childUID = new ArrayList<>();
+        this.childUID.add("a string for non-null purposes");
+        this.guideName = guideName;
     }
 
     public Activity() {
@@ -57,5 +64,21 @@ public class Activity {
 
     public void setFile_url(String file_url) {
         this.file_url = file_url;
+    }
+
+    public ArrayList<String> getChildUID() {
+        return childUID;
+    }
+
+    public void setChildUID(ArrayList<String> childUID) {
+        this.childUID = childUID;
+    }
+
+    public String getGuideName() {
+        return guideName;
+    }
+
+    public void setGuideName(String guideName) {
+        this.guideName = guideName;
     }
 }

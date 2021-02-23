@@ -21,6 +21,18 @@
         android:textSize="40sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/children_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/ozrad_bold"
+        android:gravity="center_horizontal"
+        android:text="לחציה קצרה להרשמה לפעולה ולחיצה ארוכה לעדכון נתונים"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

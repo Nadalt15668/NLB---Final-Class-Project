@@ -116,14 +116,22 @@ public class parents_children extends AppCompatActivity {
                 child_cardlsview_adap adap = new child_cardlsview_adap(arrChild, arrChildUID, parents_children.this, prg);
                 child_listview.setAdapter(adap);
 
+                child_listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        Position = position;
+                        startActivity(new Intent(parents_children.this,children_update.class));
+                        return false;
+                    }
+                });
+
                 child_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Position = position;
-                        startActivity(new Intent(parents_children.this,children_update.class));
+                        startActivity(new Intent(parents_children.this, register_to_activity.class));
                     }
                 });
-
             }
 
             @Override

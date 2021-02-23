@@ -78,8 +78,7 @@ public class guides_activities extends AppCompatActivity {
     private AlertDialog dialog;
 
     private DatabaseReference classesReference = FirebaseDatabase.getInstance().getReference("Classes");
-    private DatabaseReference activitiesReference = FirebaseDatabase.getInstance().getReference("Activities").child(Client.getCurrentUser().getBranch_name()).
-    child(Client.getCurrentUser().getFirst_name() + Client.getCurrentUser().getLast_name());
+    private DatabaseReference activitiesReference = FirebaseDatabase.getInstance().getReference("Activities").child(Client.getCurrentUser().getBranch_name());
     
 
     @Override
@@ -175,7 +174,6 @@ public class guides_activities extends AppCompatActivity {
            StorageReference storageReference = firebaseStorage.getReference();
 
            storageReference.child("Activities").child(Client.getCurrentUser().getBranch_name()).
-                   child(Client.getCurrentUser().getFirst_name() + Client.getCurrentUser().getLast_name()).
                    child(fileName).putFile(docxUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                @Override
                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -184,7 +182,6 @@ public class guides_activities extends AppCompatActivity {
 
                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                    databaseReference.child("Activities").child(Client.getCurrentUser().getBranch_name()).
-                           child(Client.getCurrentUser().getFirst_name() + Client.getCurrentUser().getLast_name()).
                            child(fileName1).setValue(activity).addOnCompleteListener(new OnCompleteListener<Void>() {
                        @Override
                        public void onComplete(@NonNull Task<Void> task) {
@@ -310,7 +307,8 @@ public class guides_activities extends AppCompatActivity {
                         chosenHour != -1 && chosenMinute != -1)
                         {
                             Activity activity = new Activity(activity_name.getText().toString(), new Date(chosenYear,chosenMonth,chosenDay, chosenHour, chosenMinute),
-                                    new Date(year,month,day,hour,minute),activity_class.getSelectedItem().toString());
+                                    new Date(year,month,day,hour,minute),activity_class.getSelectedItem().toString(), Client.getCurrentUser().getFirst_name() + "" +
+                                    Client.getCurrentUser().getLast_name());
                             uploadFile(docxUri, activity);
                         }
                         else

@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class guides_hub extends AppCompatActivity {
 
     private TextView guides_hub_title;
-    private CardView my_activities;
+    private CardView my_activities, logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -21,6 +21,15 @@ public class guides_hub extends AppCompatActivity {
         setContentView(R.layout.activity_guides_hub);
         guides_hub_title = findViewById(R.id.guides_hub_title);
         my_activities = findViewById(R.id.myActivites);
+        logout = findViewById(R.id.logout);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Client.setCurrentUser(null);
+                startActivity(new Intent(guides_hub.this, welcome_screen.class));
+            }
+        });
 
         if (Client.getCurrentUser().getGender().equals("זכר"))
             guides_hub_title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
