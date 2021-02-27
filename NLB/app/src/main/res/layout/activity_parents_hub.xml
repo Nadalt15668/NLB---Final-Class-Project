@@ -28,7 +28,7 @@
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/onlineStore"
+            android:id="@+id/activitiesList"
             android:layout_width="175dp"
             android:layout_height="170dp"
             android:layout_gravity="center"

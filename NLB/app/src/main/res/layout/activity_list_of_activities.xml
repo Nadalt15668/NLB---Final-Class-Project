@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/nlb_bground"
+    tools:context=".list_of_activities">
+
+    <TextView
+        android:id="@+id/parents_hub_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/ozrad_bold"
+        android:gravity="center_horizontal"
+        android:text="@string/פעולות_רשומות"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/list_of_activities"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        />
+
+</LinearLayout>

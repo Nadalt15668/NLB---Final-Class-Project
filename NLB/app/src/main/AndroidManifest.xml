@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".register_to_activity"></activity>
+        <activity android:name=".list_of_activities"></activity>
+        <activity android:name=".acitivities_list" />
+        <activity android:name=".register_to_activity" />
         <activity android:name=".activities_list" />
         <activity android:name=".guides_activities" />
         <activity android:name=".guides_hub" />
