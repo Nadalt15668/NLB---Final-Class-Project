@@ -87,6 +87,9 @@ public class welcome_screen extends AppCompatActivity {
         password = findViewById(R.id.password);
         nlb_logo = findViewById(R.id.nlb_logo);
 
+        Permission p = new Permission(welcome_screen.this);
+        p.verifyPermissions();
+
         prg = new ProgressDialog(welcome_screen.this);
         prg.setTitle("מעלה נתונים");
         prg.setMessage("מעלה את נתוני המשתמש");

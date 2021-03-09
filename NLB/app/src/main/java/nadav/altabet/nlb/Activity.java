@@ -11,8 +11,9 @@ public class Activity {
     private String file_url;
     private ArrayList<String> childUID;
     private String guideName;
+    private String guidePhone;
 
-    public Activity(String activity_name, Date activity_date, Date creation_date, String activity_class, String guideName) {
+    public Activity(String activity_name, Date activity_date, Date creation_date, String activity_class, String guideName, String guidePhone) {
         this.activity_name = activity_name;
         this.activity_date = activity_date;
         this.creation_date = creation_date;
@@ -21,6 +22,19 @@ public class Activity {
         this.childUID = new ArrayList<>();
         this.childUID.add("a string for non-null purposes");
         this.guideName = guideName;
+        this.guidePhone = guidePhone;
+    }
+
+    public Activity(Activity a)
+    {
+        this.activity_name = a.getActivity_name();
+        this.activity_date = a.getActivity_date();
+        this.creation_date = a.getCreation_date();
+        this.activity_class = a.getActivity_class();
+        this.file_url = a.getFile_url();
+        this.childUID = new ArrayList<>(a.getChildUID());
+        this.guideName = a.getGuideName();
+        this.guidePhone = a.getGuidePhone();
     }
 
     public Activity() {
@@ -80,5 +94,13 @@ public class Activity {
 
     public void setGuideName(String guideName) {
         this.guideName = guideName;
+    }
+
+    public String getGuidePhone() {
+        return guidePhone;
+    }
+
+    public void setGuidePhone(String guidePhone) {
+        this.guidePhone = guidePhone;
     }
 }

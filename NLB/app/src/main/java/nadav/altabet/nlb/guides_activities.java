@@ -56,7 +56,7 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class guides_activities extends AppCompatActivity {
 
     private EditText activity_name;
-    private Button activity_date, btn_add_activity, choose_file, download_file, activity_time;
+    private Button activity_date, btn_add_activity, choose_file, download_file, activity_time,delete_activity, update_activity;
     private TextView file_name;
     private Spinner activity_class;
     private ListView activity_listview;
@@ -70,6 +70,7 @@ public class guides_activities extends AppCompatActivity {
     private ArrayList<Activity> activityArray = new ArrayList<>();
     private ArrayList<String> fileArray = new ArrayList<>();
     private ProgressDialog progressDialog;
+    private boolean isDateUpdated, isTimeUpdated;
     int chosenDay = -1, chosenMonth = -1, chosenYear = -1, chosenHour = -1, chosenMinute = -1;
     int day, month, year, hour, minute;
 
@@ -243,11 +244,12 @@ public class guides_activities extends AppCompatActivity {
                 view = getLayoutInflater().inflate(R.layout.add_activity, null);
                 activity_name = view.findViewById(R.id.activityNameEditTxt);
                 activity_date = view.findViewById(R.id.btnActivityDate);
+                activity_time = view.findViewById(R.id.btnActivityTime);
                 choose_file = view.findViewById(R.id.btnChooseFile);
                 btn_add_activity = view.findViewById(R.id.btnAddActivity);
                 file_name = view.findViewById(R.id.fileNameTxtView);
                 activity_class = view.findViewById(R.id.activityClass);
-                activity_time = view.findViewById(R.id.btnActivityTime);
+
 
                 //Choosing Activity Date & Time:
                 Calendar calendar = Calendar.getInstance();
@@ -308,7 +310,7 @@ public class guides_activities extends AppCompatActivity {
                         {
                             Activity activity = new Activity(activity_name.getText().toString(), new Date(chosenYear,chosenMonth,chosenDay, chosenHour, chosenMinute),
                                     new Date(year,month,day,hour,minute),activity_class.getSelectedItem().toString(), Client.getCurrentUser().getFirst_name() + "" +
-                                    Client.getCurrentUser().getLast_name());
+                                    Client.getCurrentUser().getLast_name(), Client.getCurrentUser().getPhone());
                             uploadFile(docxUri, activity);
                         }
                         else
@@ -346,7 +348,7 @@ public class guides_activities extends AppCompatActivity {
 
         activitiesReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();
                 for (DataSnapshot child: children) {
                     Activity activity = child.getValue(Activity.class);
@@ -359,21 +361,78 @@ public class guides_activities extends AppCompatActivity {
                 activity_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                        ref = FirebaseStorage.getInstance().getReference("Activities").child(Client.getCurrentUser().getBranch_name()).
-                                child(Client.getCurrentUser().getFirst_name() + Client.getCurrentUser().getLast_name()).child(fileArray.get(position) + ".docx");
-                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(guides_activities.this);
+                        View viewDialog = getLayoutInflater().inflate(R.layout.activity_update, null);
+                        activity_date = viewDialog.findViewById(R.id.btnActivityDate);
+                        activity_time = viewDialog.findViewById(R.id.btnActivityTime);
+                        delete_activity = viewDialog.findViewById(R.id.btnDeleteActivity);
+                        update_activity = viewDialog.findViewById(R.id.btnUpdateActivity);
+
+                        //Choosing Activity Date & Time:
+                        Calendar calendar = Calendar.getInstance();
+                        day  = activityArray.get(position).getActivity_date().getDay();
+                        month = activityArray.get(position).getActivity_date().getMonth();
+                        year = activityArray.get(position).getActivity_date().getYear();
+                        hour = activityArray.get(position).getActivity_date().getHour();
+                        minute = activityArray.get(position).getActivity_date().getMinute();
+                        activity_date.setText(day + "/" + month + "/" + year);
+                        activity_time.setText(minute + ":" + hour);
+
+                        activity_date.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onSuccess(Uri uri) {
-                                String url = uri.toString();
-                                downloadFiles(guides_activities.this, fileArray.get(position), ".docx",  DIRECTORY_DOWNLOADS, url);
-                                prg.dismiss();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(guides_activities.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            public void onClick(View v) {
+                                DatePickerDialog datePickerDialog = new DatePickerDialog(guides_activities.this, new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                        activity_date.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                                        chosenDay= dayOfMonth;
+                                        chosenMonth= month+1;
+                                        chosenYear= year;
+                                        isDateUpdated = true;
+                                    }
+                                },year,month,day);
+                                datePickerDialog.show();
                             }
                         });
+                        activity_time.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TimePickerDialog timePickerDialog = new TimePickerDialog(guides_activities.this, new TimePickerDialog.OnTimeSetListener() {
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                        activity_time.setText(hourOfDay + ":" + minute);
+                                        chosenHour = hourOfDay;
+                                        chosenMinute = minute;
+                                        isTimeUpdated = true;
+                                    }
+                                },hour,minute,true);
+                                timePickerDialog.show();
+                            }
+                        });
+                        delete_activity.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Task<Void> reference = activitiesReference.child(fileArray.get(position)).setValue(null);
+                                startActivity(new Intent(guides_activities.this, guides_hub.class));
+                                Toast.makeText(guides_activities.this, "הפעולה הוסרה בהצלחה!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        update_activity.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isDateUpdated && isTimeUpdated)
+                                {
+                                    Activity activity = new Activity(activityArray.get(position));
+                                    activity.setActivity_date(new Date(chosenYear, chosenMonth, chosenDay,chosenHour,chosenMinute));
+                                    Task<Void> reference = activitiesReference.child(fileArray.get(position)).setValue(activity);
+                                    Toast.makeText(guides_activities.this, "הפעולה עודכנה בהצלחה!", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(guides_activities.this, guides_hub.class));
+                                }
+                            }
+                        });
+                        builder.setView(viewDialog);
+                        dialog = builder.create();
+                        dialog.show();
                     }
                 });
 

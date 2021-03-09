@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -72,6 +74,13 @@ public class register_to_activity extends AppCompatActivity {
                                         reference = activitiesReference.child(arrUID.get(position)).child("childUID").setValue(childrenArray);
                                         startActivity(new Intent(register_to_activity.this, parents_hub.class));
                                         Toast.makeText(register_to_activity.this, "החניך נרשם בהצלחה לפעולה!", Toast.LENGTH_SHORT).show();
+                                        String phone = arrActivities.get(position).getGuidePhone();
+                                        String Message = parents_children.arrChild.get(parents_children.Position).getChild_first_name() + " " +
+                                                parents_children.arrChild.get(parents_children.Position).getChild_last_name() + " נרשם לפעולה " + '"' +
+                                                arrActivities.get(position).getActivity_name() + '"';
+                                        SmsManager sm = SmsManager.getDefault();
+                                        sm.sendTextMessage(phone, null, Message, null, null);
+                                        Toast.makeText(register_to_activity.this, "הודעה על ההרשמה נשלחה למדריך!", Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();
                                     }
                                 });

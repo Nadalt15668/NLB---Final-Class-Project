@@ -21,7 +21,9 @@ public class Permission {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.CAMERA
+            Manifest.permission.CAMERA,
+            Manifest.permission.SEND_SMS
+
 
 
     };
