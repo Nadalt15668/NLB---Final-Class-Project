@@ -60,4 +60,10 @@
     <string name="הרשמה_לפעולה">הרשמה לפעולה</string>
     <string name="שעה_פעולה">בחר שעה לפעולה</string>
     <string name="פעולות_רשומות">פעולות רשומות</string>
+    <string name="הודעות_נכנסות">הודעות נכנסות</string>
+    <string name="חיפוש">חיפוש</string>
+    <string name="איפוס">איפוס</string>
+    <string name="יצירת_הודעה">יצירת הודעה</string>
+    <string name="ביטול">ביטול</string>
+    <string name="שליחה">שליחה</string>
 </resources>

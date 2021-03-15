@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".list_of_activities"></activity>
+        <activity android:name=".message_receivers"></activity>
+        <activity android:name=".my_messages" />
+        <activity android:name=".list_of_activities" />
         <activity android:name=".register_to_activity" />
         <activity android:name=".guides_activities" />
         <activity android:name=".guides_hub" />

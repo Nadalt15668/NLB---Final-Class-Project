@@ -1,17 +1,25 @@
 package nadav.altabet.nlb;
 
+import java.util.Calendar;
+
 public class Message {
     private String messageUID;
     private String senderEmail;
-    private String RecieverUID;
+    private String receiverEmail;
     private String messageContent;
-    private boolean status; //t=read
+    private String messageHeadline;
+    private Date sentOnDate;
+    private boolean status; //t=read | f=unread
 
-    public Message(String messageUID, String recieverUID, String messageContent) {
+    public Message(String messageUID, String receiverEmail, String messageContent, String messageHeadline) {
         this.messageUID = messageUID;
         this.senderEmail = Client.getCurrentUser().getEmail();
-        RecieverUID = recieverUID;
+        this.receiverEmail = receiverEmail;
         this.messageContent = messageContent;
+        this.messageHeadline = messageHeadline;
+        Calendar calendar = Calendar.getInstance();
+        this.sentOnDate = new Date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE));
         this.status = false;
     }
 
@@ -31,12 +39,12 @@ public class Message {
         this.senderEmail = senderEmail;
     }
 
-    public String getRecieverUID() {
-        return RecieverUID;
+    public String getReceiverEmail() {
+        return receiverEmail;
     }
 
-    public void setRecieverUID(String recieverUID) {
-        RecieverUID = recieverUID;
+    public void setReceiverEmail(String receiverEmail) {
+        this.receiverEmail = receiverEmail;
     }
 
     public String getMessageContent() {
@@ -45,6 +53,22 @@ public class Message {
 
     public void setMessageContent(String messageContent) {
         this.messageContent = messageContent;
+    }
+
+    public String getMessageHeadline() {
+        return messageHeadline;
+    }
+
+    public void setMessageHeadline(String messageHeadline) {
+        this.messageHeadline = messageHeadline;
+    }
+
+    public Date getSentOnDate() {
+        return sentOnDate;
+    }
+
+    public void setSentOnDate(Date sentOnDate) {
+        this.sentOnDate = sentOnDate;
     }
 
     public boolean isStatus() {
