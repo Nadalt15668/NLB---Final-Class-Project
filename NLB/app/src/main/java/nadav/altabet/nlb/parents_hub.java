@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class parents_hub extends AppCompatActivity {
 
     private TextView parents_hub_title;
-    private CardView logout,profile,children,activities_list;
+    private CardView logout,profile,children,activities_list, messages;
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -39,6 +39,7 @@ public class parents_hub extends AppCompatActivity {
         children = findViewById(R.id.children);
         activities_list = findViewById(R.id.activitiesList);
         parents_hub_title = findViewById(R.id.parents_hub_title);
+        messages = findViewById(R.id.messages);
         if (Client.getCurrentUser().getGender().equals("זכר"))
             parents_hub_title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
         else
@@ -67,6 +68,12 @@ public class parents_hub extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(parents_hub.this, list_of_activities.class));
+            }
+        });
+        messages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(parents_hub.this, my_messages.class));
             }
         });
     }
