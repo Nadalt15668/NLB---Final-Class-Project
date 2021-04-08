@@ -67,4 +67,7 @@
     <string name="ביטול">ביטול</string>
     <string name="שליחה">שליחה</string>
     <string name="ההודעות_שלי">ההודעות שלי</string>
+    <string name="כותרת_הודעה">כותרת ההודעה</string>
+    <string name="גוף_הודעה">גוף ההודעה</string>
+    <string name="כותרת_הודעה_עיצוב">כותרת ההודעה: </string>
 </resources>

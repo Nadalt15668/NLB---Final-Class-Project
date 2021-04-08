@@ -27,10 +27,11 @@
         android:backgroundTint="@android:color/white"
         android:fontFamily="@font/ozrad_bold"
         android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:gravity="center"
-        android:hint="כותרת ההודעה" />
+        android:hint="@string/כותרת_הודעה" />
 
     <EditText
         android:id="@+id/message_body"
@@ -49,7 +50,7 @@
         android:fontFamily="@font/ozrad_bold"
         android:textColorHint="@android:color/white"
         android:textColor="@android:color/white"
-        android:hint="גוף ההודעה" />
+        android:hint="@string/גוף_הודעה" />
 
     <LinearLayout
         android:layout_width="wrap_content"
