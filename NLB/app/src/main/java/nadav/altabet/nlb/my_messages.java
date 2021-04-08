@@ -169,7 +169,8 @@ public class my_messages extends AppCompatActivity {
                                 messageArray.add(message);
                             }
                             try {
-                                final message_cardlsview_adap adap = new message_cardlsview_adap(messageArray, usersArray, nadav.altabet.nlb.my_messages.this);
+                                final message_cardlsview_adap adap =
+                                        new message_cardlsview_adap(messageArray, usersArray, nadav.altabet.nlb.my_messages.this);
                                 my_messages.setAdapter(adap);
                             } catch (Exception e) {
                                 Toast.makeText(my_messages.this, "אין לך הודעות חדשות", Toast.LENGTH_LONG).show();

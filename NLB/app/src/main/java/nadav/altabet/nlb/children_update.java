@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -44,6 +45,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -162,6 +164,12 @@ public class children_update extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -176,6 +184,21 @@ public class children_update extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picName = cursor.getString(columnIndex);
             picName = picName.substring(picName.lastIndexOf('/')+1);
+        }
+        else if(requestCode == 100 && data!=null)
+        {
+            chosen=true;
+            selectedPic = getImageUri(children_update.this, (Bitmap) data.getExtras().get("data"));
+            profileChild.setImageURI(selectedPic);
+
+            String[] filepathcolumn={MediaStore.Images.Media.DATA};
+            Cursor cursor=getContentResolver().query(selectedPic,filepathcolumn,null,null,null);
+            cursor.moveToFirst();
+            int columnindex=cursor.getColumnIndex(filepathcolumn[0]);
+
+            picName=cursor.getString(columnindex);
+
+            picName=picName.substring(picName.lastIndexOf("/")+1);
         }
     }
     private void addPic()
@@ -299,7 +322,25 @@ public class children_update extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI),1);
+                AlertDialog.Builder builder = new AlertDialog.Builder(children_update.this);
+                builder.setTitle("העלאת תמונה לאפליקציה").
+                        setMessage("צילום תמונה או בחירה מהגלריה?").
+                        setPositiveButton("תמונה מהגלריה", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI),1);
+                                dialogInterface.cancel();
+                            }
+                        }).setNegativeButton("צילום תמונה", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), 100);
+                        dialogInterface.cancel();
+                    }
+                }).setCancelable(false);
+                AlertDialog dialog = builder.create();
+                dialog.setTitle("העלאת תמונה לאפליקציה");
+                dialog.show();
             }
         });
 
