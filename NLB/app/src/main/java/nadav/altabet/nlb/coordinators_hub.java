@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class coordinators_hub extends AppCompatActivity {
 
     private TextView coordinators_hub_title;
-    private CardView guides;
+    private CardView guides,logout,messages;
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -34,6 +34,8 @@ public class coordinators_hub extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coordinators_hub);
         guides = findViewById(R.id.guidesCoordinator);
+        logout = findViewById(R.id.logout);
+        messages = findViewById(R.id.messages);
         coordinators_hub_title = findViewById(R.id.coordinators_hub_title);
 
         if (Client.getCurrentUser().getGender().equals("זכר"))
@@ -45,6 +47,20 @@ public class coordinators_hub extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(coordinators_hub.this, coordinators_guides.class));
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Client.setCurrentUser(null);
+                Client.setUID(null);
+                startActivity(new Intent(coordinators_hub.this, welcome_screen.class));
+            }
+        });
+        messages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(coordinators_hub.this, my_messages.class));
             }
         });
     }

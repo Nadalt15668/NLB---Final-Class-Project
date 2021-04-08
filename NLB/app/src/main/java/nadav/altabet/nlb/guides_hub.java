@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class guides_hub extends AppCompatActivity {
 
     private TextView guides_hub_title;
-    private CardView my_activities, logout;
+    private CardView my_activities, logout, messages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -21,7 +21,15 @@ public class guides_hub extends AppCompatActivity {
         setContentView(R.layout.activity_guides_hub);
         guides_hub_title = findViewById(R.id.guides_hub_title);
         my_activities = findViewById(R.id.myActivites);
+        messages = findViewById(R.id.messages);
         logout = findViewById(R.id.logout);
+
+        messages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(guides_hub.this, my_messages.class));
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
