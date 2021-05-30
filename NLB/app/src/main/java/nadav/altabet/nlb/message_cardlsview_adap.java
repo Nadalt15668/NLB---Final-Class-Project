@@ -59,7 +59,7 @@ public class message_cardlsview_adap extends BaseAdapter {
         message_sending_date.setText(messageArray.get(i).getSentOnDate().getDay() + "/" +
                 messageArray.get(i).getSentOnDate().getMonth() + "/" +
                 messageArray.get(i).getSentOnDate().getYear());
-        if (messageArray.get(i).isStatus().equals("true"))
+        if (messageArray.get(i).isStatus().equals("read"))
             isSeen.setImageResource(R.drawable.read);
         else
             isSeen.setImageResource(R.drawable.unread);

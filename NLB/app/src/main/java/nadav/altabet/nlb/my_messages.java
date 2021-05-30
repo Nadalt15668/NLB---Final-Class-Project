@@ -180,7 +180,7 @@ public class my_messages extends AppCompatActivity {
                                 public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
                                     reference = messagesReference.child(Client.getCurrentUser().getFirst_name() + " " +
                                             Client.getCurrentUser().getLast_name()).
-                                            child(messageArray.get(position).getMessageUID()).child("status").setValue("true");
+                                            child(messageArray.get(position).getMessageUID()).child("status").setValue("read");
                                     final AlertDialog.Builder dialog = new AlertDialog.Builder(my_messages.this);
                                     dialog.setTitle(messageArray.get(position).getMessageHeadline());
                                     dialog.setMessage(messageArray.get(position).getMessageContent());
@@ -188,12 +188,12 @@ public class my_messages extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             dialogInterface.cancel();
+
                                         }
                                     }).setPositiveButton("הגב", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, final int i) {
                                             dialogInterface.cancel();
-                                            //להוסיף קוד שמאפשר מתן תגובה
                                             AlertDialog.Builder builder = new AlertDialog.Builder(my_messages.this);
                                             View writeMessageView = getLayoutInflater().inflate(R.layout.write_message, null);
                                             final EditText message_headline = writeMessageView.findViewById(R.id.message_headline);

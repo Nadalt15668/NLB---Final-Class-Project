@@ -1,5 +1,6 @@
 package nadav.altabet.nlb;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -7,12 +8,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class parents_hub extends AppCompatActivity {
 
     private TextView parents_hub_title;
     private CardView logout,profile,children,activities_list, messages;
+    private ImageView messagesImg;
+    private DatabaseReference messageReference = FirebaseDatabase.getInstance().getReference("Messages").
+            child(Client.getCurrentUser().getFirst_name() + " " + Client.getCurrentUser().getLast_name());
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -33,7 +44,7 @@ public class parents_hub extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parents_hub);
-
+        messagesImg = findViewById(R.id.messagesImg);
         logout = findViewById(R.id.logout);
         profile = findViewById(R.id.myProfile);
         children = findViewById(R.id.children);
@@ -74,6 +85,25 @@ public class parents_hub extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(parents_hub.this, my_messages.class));
+            }
+        });
+
+        messageReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child:children) {
+                    if (child.getValue(Message.class).isStatus().equals("unread"))
+                    {
+                        messagesImg.setImageResource(R.drawable.new_message_100px);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

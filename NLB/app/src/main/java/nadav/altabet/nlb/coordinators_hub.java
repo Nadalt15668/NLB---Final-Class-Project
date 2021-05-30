@@ -1,18 +1,30 @@
 package nadav.altabet.nlb;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class coordinators_hub extends AppCompatActivity {
 
     private TextView coordinators_hub_title;
     private CardView guides,logout,messages;
+    private ImageView messagesImg;
+    private DatabaseReference messageReference = FirebaseDatabase.getInstance().getReference("Messages").
+            child(Client.getCurrentUser().getFirst_name() + " " + Client.getCurrentUser().getLast_name());
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -37,6 +49,7 @@ public class coordinators_hub extends AppCompatActivity {
         logout = findViewById(R.id.logout);
         messages = findViewById(R.id.messages);
         coordinators_hub_title = findViewById(R.id.coordinators_hub_title);
+        messagesImg = findViewById(R.id.messagesImg);
 
         if (Client.getCurrentUser().getGender().equals("זכר"))
             coordinators_hub_title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
@@ -61,6 +74,24 @@ public class coordinators_hub extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(coordinators_hub.this, my_messages.class));
+            }
+        });
+        messageReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child:children) {
+                    if (child.getValue(Message.class).isStatus().equals("unread"))
+                    {
+                        messagesImg.setImageResource(R.drawable.new_message_100px);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

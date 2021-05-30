@@ -141,14 +141,16 @@ public class add_child extends AppCompatActivity {
             picName = cursor.getString(columnIndex);
             picName = picName.substring(picName.lastIndexOf('/')+1);
         }
-        else if(requestCode == 100 && data!=null)
+        else if(requestCode == 2 && data!=null)
         {
             chosen=true;
-            selectedPic = getImageUri(add_child.this, (Bitmap) data.getExtras().get("data"));
+            selectedPic = getImageUri(add_child.this,
+                    (Bitmap) data.getExtras().get("data"));
             profileChild.setImageURI(selectedPic);
 
             String[] filepathcolumn={MediaStore.Images.Media.DATA};
-            Cursor cursor=getContentResolver().query(selectedPic,filepathcolumn,null,null,null);
+            Cursor cursor=getContentResolver().query(selectedPic,filepathcolumn,
+                    null,null,null);
             cursor.moveToFirst();
             int columnindex=cursor.getColumnIndex(filepathcolumn[0]);
 
@@ -258,13 +260,14 @@ public class add_child extends AppCompatActivity {
                     setPositiveButton("תמונה מהגלריה", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI),1);
+                            startActivityForResult(new Intent(Intent.ACTION_PICK,
+                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI),1);
                             dialogInterface.cancel();
                         }
                     }).setNegativeButton("צילום תמונה", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), 100);
+                            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), 2);
                             dialogInterface.cancel();
                         }
                     }).setCancelable(false);

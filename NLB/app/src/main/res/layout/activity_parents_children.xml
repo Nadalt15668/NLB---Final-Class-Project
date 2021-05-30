@@ -28,7 +28,7 @@
         android:layout_marginTop="5dp"
         android:fontFamily="@font/ozrad_bold"
         android:gravity="center_horizontal"
-        android:text="לחציה קצרה להרשמה לפעולה ולחיצה ארוכה לעדכון נתונים"
+        android:text="@string/הילדים_שלי_הערה"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"/>

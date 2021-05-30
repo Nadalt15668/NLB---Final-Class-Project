@@ -20,7 +20,7 @@ public class Message {
         Calendar calendar = Calendar.getInstance();
         this.sentOnDate = new Date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE));
-        this.status = "false";
+        this.status = "unread";
     }
 
     public Message() {

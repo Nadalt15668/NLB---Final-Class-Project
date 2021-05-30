@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.DirectAction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -173,7 +174,7 @@ public class children_update extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && data!= null)
+        if (requestCode == 1 && (data != null || data.getExtras() != null))
         {
             chosen = true;
             selectedPic = data.getData();
@@ -185,9 +186,9 @@ public class children_update extends AppCompatActivity {
             picName = cursor.getString(columnIndex);
             picName = picName.substring(picName.lastIndexOf('/')+1);
         }
-        else if(requestCode == 100 && data!=null)
+        else if(requestCode == 100 && (data != null || data.getExtras().isEmpty()))
         {
-            chosen=true;
+            chosen = true;
             selectedPic = getImageUri(children_update.this, (Bitmap) data.getExtras().get("data"));
             profileChild.setImageURI(selectedPic);
 
@@ -334,7 +335,8 @@ public class children_update extends AppCompatActivity {
                         }).setNegativeButton("צילום תמונה", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), 100);
+                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(cameraIntent, 100);
                         dialogInterface.cancel();
                     }
                 }).setCancelable(false);

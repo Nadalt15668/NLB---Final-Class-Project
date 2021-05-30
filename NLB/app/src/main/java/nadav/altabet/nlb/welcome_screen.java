@@ -63,13 +63,10 @@ public class welcome_screen extends AppCompatActivity {
     private class BatteryBroadcastReceiver extends BroadcastReceiver
     {
         private final static String BATTERY_LEVEL = "level";
-
-
         @Override
         public void onReceive(Context context, Intent intent)
         {
             int level = intent.getIntExtra(BATTERY_LEVEL, 0);
-
             mBatteryLevelText.setText("Battery level:" + " " + level);
             mBatteryLevelProgress.setProgress(level);
         }

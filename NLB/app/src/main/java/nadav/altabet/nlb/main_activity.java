@@ -35,8 +35,8 @@ public class main_activity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        anim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
         appLogo = findViewById(R.id.nlb_logo);
+        anim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
         appLogo.setAnimation(anim);
         new Handler().postDelayed(new Runnable() {
             @Override
