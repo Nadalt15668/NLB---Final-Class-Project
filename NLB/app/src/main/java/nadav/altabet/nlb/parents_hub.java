@@ -23,7 +23,7 @@ public class parents_hub extends AppCompatActivity {
     private CardView logout,profile,children,activities_list, messages;
     private ImageView messagesImg;
     private DatabaseReference messageReference = FirebaseDatabase.getInstance().getReference("Messages").
-            child(Client.getCurrentUser().getFirst_name() + " " + Client.getCurrentUser().getLast_name());
+            child(Client.getUID());
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -51,7 +51,7 @@ public class parents_hub extends AppCompatActivity {
         activities_list = findViewById(R.id.activitiesList);
         parents_hub_title = findViewById(R.id.parents_hub_title);
         messages = findViewById(R.id.messages);
-        if (Client.getCurrentUser().getGender().equals("זכר"))
+        if (Client.getCurrentUser().getGender().equals("male"))
             parents_hub_title.setText("ברוך הבא " + Client.getCurrentUser().getFirst_name() + "!");
         else
             parents_hub_title.setText("ברוכה הבאה " + Client.getCurrentUser().getFirst_name() + "!");

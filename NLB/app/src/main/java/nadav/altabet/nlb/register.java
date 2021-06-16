@@ -224,9 +224,9 @@ public class register extends AppCompatActivity {
                     if (chosen)
                         pic = picName;
                     final String finalPic = pic;
-                    String gender = "זכר";
+                    String gender = "male";
                     if (female.isChecked())
-                        gender = "נקבה";
+                        gender = "female";
                     final String finalGender = gender;
                     final User user = new User(email, fstName, lstName, id, city, address, phone, finalPic, dateOfBirth, finalGender, type, branchName);
                     if (dateOfBirth.checkForAbove18(new Date(year, month, day)) > 18) {

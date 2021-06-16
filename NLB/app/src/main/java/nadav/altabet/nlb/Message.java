@@ -4,17 +4,17 @@ import java.util.Calendar;
 
 public class Message {
     private String messageUID;
-    private String senderEmail;
-    private String receiverEmail;
+    private String senderFullName;
+    private String receiverFullName;
     private String messageContent;
     private String messageHeadline;
     private Date sentOnDate;
     private String status; //t=read | f=unread
 
-    public Message(String messageUID, String receiverEmail, String messageContent, String messageHeadline) {
+    public Message(String messageUID, String receiverFullName, String messageContent, String messageHeadline) {
         this.messageUID = messageUID;
-        this.senderEmail = Client.getCurrentUser().getEmail();
-        this.receiverEmail = receiverEmail;
+        this.senderFullName = Client.getCurrentUser().getFirst_name() + " " + Client.getCurrentUser().getLast_name();
+        this.receiverFullName = receiverFullName;
         this.messageContent = messageContent;
         this.messageHeadline = messageHeadline;
         Calendar calendar = Calendar.getInstance();
@@ -34,20 +34,20 @@ public class Message {
         this.messageUID = messageUID;
     }
 
-    public String getSenderEmail() {
-        return senderEmail;
+    public String getSenderFullName() {
+        return senderFullName;
     }
 
-    public void setSenderEmail(String senderEmail) {
-        this.senderEmail = senderEmail;
+    public void setSenderFullName(String senderFullName) {
+        this.senderFullName = senderFullName;
     }
 
-    public String getReceiverEmail() {
-        return receiverEmail;
+    public String getReceiverFullName() {
+        return receiverFullName;
     }
 
-    public void setReceiverEmail(String receiverEmail) {
-        this.receiverEmail = receiverEmail;
+    public void setReceiverFullName(String receiverFullName) {
+        this.receiverFullName = receiverFullName;
     }
 
     public String getMessageContent() {

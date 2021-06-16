@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,10 +34,12 @@ public class my_messages extends AppCompatActivity {
     private FloatingActionButton write_message;
     private ArrayList<Message> messageArray = new ArrayList();
     private ArrayList<User> usersArray = new ArrayList<>();
+    private ArrayList<String> UIDkeysArray = new ArrayList<>();
     private DatabaseReference messagesReference = FirebaseDatabase.getInstance().getReference("Messages");
     private DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("Parents");
     private Task<Void> reference = null;
     private AlertDialog replyDialog;
+    private ProgressDialog prg;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,6 +153,10 @@ public class my_messages extends AppCompatActivity {
                     startActivity(new Intent(my_messages.this, message_receivers.class));
                 }
             });
+            prg = new ProgressDialog(my_messages.this);
+            prg.setTitle("מעלה הודעות");
+            prg.setMessage("בודק הודעות חדשות");
+            prg.show();
 
             usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -158,9 +165,9 @@ public class my_messages extends AppCompatActivity {
                     for (DataSnapshot child : children) {
                         User user = child.getValue(User.class);
                         usersArray.add(user);
+                        UIDkeysArray.add(child.getKey());
                     }
-                    messagesReference.child(Client.getCurrentUser().getFirst_name() + " " +
-                            Client.getCurrentUser().getLast_name()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    messagesReference.child(Client.getUID()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Iterable<DataSnapshot> children = dataSnapshot.getChildren();
@@ -169,24 +176,29 @@ public class my_messages extends AppCompatActivity {
                                 messageArray.add(message);
                             }
                             try {
-                                final message_cardlsview_adap adap =
-                                        new message_cardlsview_adap(messageArray, usersArray, nadav.altabet.nlb.my_messages.this);
+                                final message_cardlsview_adap adap = new message_cardlsview_adap(messageArray, usersArray, nadav.altabet.nlb.my_messages.this);
                                 my_messages.setAdapter(adap);
+                                prg.dismiss();
                             } catch (Exception e) {
                                 Toast.makeText(my_messages.this, "אין לך הודעות חדשות", Toast.LENGTH_LONG).show();
                             }
                             my_messages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
-                                    reference = messagesReference.child(Client.getCurrentUser().getFirst_name() + " " +
-                                            Client.getCurrentUser().getLast_name()).
-                                            child(messageArray.get(position).getMessageUID()).child("status").setValue("read");
+                                    for (int i = 0; i < usersArray.size(); i++) {
+                                        if (messageArray.get(position).getReceiverFullName().equals(usersArray.get(i).getFirst_name() + " " + usersArray.get(i).getLast_name()))
+                                        {
+                                            reference = messagesReference.child(UIDkeysArray.get(i)).child(messageArray.get(position).getMessageUID()).child("status").setValue("read");
+                                            break;
+                                        }
+                                    }
                                     final AlertDialog.Builder dialog = new AlertDialog.Builder(my_messages.this);
                                     dialog.setTitle(messageArray.get(position).getMessageHeadline());
                                     dialog.setMessage(messageArray.get(position).getMessageContent());
                                     dialog.setNegativeButton("אוקיי", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
+
                                             dialogInterface.cancel();
 
                                         }
@@ -212,15 +224,19 @@ public class my_messages extends AppCompatActivity {
                                                 public void onClick(View v) {
                                                     if (!message_headline.getText().toString().equals("") && !message_body.getText().toString().equals("")) {
                                                         User receiver = null;
+                                                        String messageUID = "";
                                                         for (int j = 0; j < usersArray.size(); j++) {
-                                                            if (usersArray.get(j).getEmail().equals(messageArray.get(position).getSenderEmail())) {
+                                                            if ((usersArray.get(j).getFirst_name() + " " + usersArray.get(j).getLast_name()).
+                                                                    equals(messageArray.get(position).getSenderFullName())) {
                                                                 receiver = usersArray.get(j);
+                                                                messageUID = messagesReference.child(UIDkeysArray.get(j)).push().getKey();
+                                                                messagesReference = messagesReference.child(UIDkeysArray.get(j));
                                                                 break;
                                                             }
                                                         }
-                                                        String messageUID = messagesReference.child(receiver.getFirst_name() + " " + receiver.getLast_name()).push().getKey();
-                                                        Message message = new Message(messageUID, receiver.getEmail(), message_body.getText().toString(), message_headline.getText().toString());
-                                                        reference = messagesReference.child(receiver.getFirst_name() + " " + receiver.getLast_name()).child(messageUID).setValue(message);
+                                                        Message message = new Message(messageUID, receiver.getFirst_name() + " " + receiver.getLast_name(),
+                                                                message_body.getText().toString(), message_headline.getText().toString());
+                                                        reference = messagesReference.child(messageUID).setValue(message);
                                                         Toast.makeText(my_messages.this, "ההודעה נשלחה בהצלחה!", Toast.LENGTH_SHORT).show();
                                                         replyDialog.dismiss();
                                                     } else

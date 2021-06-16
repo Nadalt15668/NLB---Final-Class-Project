@@ -24,7 +24,7 @@ public class coordinators_hub extends AppCompatActivity {
     private CardView guides,logout,messages;
     private ImageView messagesImg;
     private DatabaseReference messageReference = FirebaseDatabase.getInstance().getReference("Messages").
-            child(Client.getCurrentUser().getFirst_name() + " " + Client.getCurrentUser().getLast_name());
+            child(Client.getUID());
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

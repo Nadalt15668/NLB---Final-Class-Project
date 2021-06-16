@@ -23,7 +23,7 @@ public class guides_hub extends AppCompatActivity {
     private CardView my_activities, logout, messages;
     private ImageView messagesImg;
     private DatabaseReference messageReference = FirebaseDatabase.getInstance().getReference("Messages").
-            child(Client.getCurrentUser().getFirst_name() + " " + Client.getCurrentUser().getLast_name());
+            child(Client.getUID());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);

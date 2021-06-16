@@ -165,6 +165,10 @@ public class welcome_screen extends AppCompatActivity {
                                             startActivity(new Intent(welcome_screen.this, guides_hub.class));
                                             Toast.makeText(welcome_screen.this, "התחברת בהצלחה!", Toast.LENGTH_SHORT).show();
                                         }break;
+                                        case("guideWL"):
+                                        {
+                                            Toast.makeText(welcome_screen.this, "עוד לא קיבלת אישור לשימוש באפליקציה. אנא פנה לרכז על מנת לקבל אישור.", Toast.LENGTH_SHORT).show();
+                                        }
                                         default:
                                         {
                                             Client.setCurrentUser(null);

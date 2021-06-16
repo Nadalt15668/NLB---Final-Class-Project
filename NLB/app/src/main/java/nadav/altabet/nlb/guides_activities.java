@@ -249,8 +249,7 @@ public class guides_activities extends AppCompatActivity {
                 btn_add_activity = view.findViewById(R.id.btnAddActivity);
                 file_name = view.findViewById(R.id.fileNameTxtView);
                 activity_class = view.findViewById(R.id.activityClass);
-
-
+                
                 //Choosing Activity Date & Time:
                 Calendar calendar = Calendar.getInstance();
                 day  = calendar.get(Calendar.DAY_OF_MONTH);

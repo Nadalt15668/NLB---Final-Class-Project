@@ -23,7 +23,7 @@ public class admins_hub extends AppCompatActivity {
     private TextView admins_hub_title;
     private CardView profile, workers, logout, messages;
     private DatabaseReference messageReference = FirebaseDatabase.getInstance().getReference("Messages").
-            child(Client.getCurrentUser().getFirst_name() + " " + Client.getCurrentUser().getLast_name());
+            child(Client.getUID());
     private ImageView messagesImg;
 
     @Override

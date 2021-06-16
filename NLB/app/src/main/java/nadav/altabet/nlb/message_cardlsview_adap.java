@@ -1,7 +1,6 @@
 package nadav.altabet.nlb;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +49,13 @@ public class message_cardlsview_adap extends BaseAdapter {
 
         message_headline.setText(messageArray.get(i).getMessageHeadline());
         for (int j = 0; j < userArray.size(); j++) {
-            if (userArray.get(i).getEmail().equals(messageArray.get(i).getSenderEmail()))
+            if (userArray.get(i).getEmail().equals(messageArray.get(i).getSenderFullName()))
             {
                 message_sender.setText(userArray.get(j).getFirst_name() + " " + userArray.get(j).getLast_name());
                 break;
             }
         }
+        message_sender.setText(messageArray.get(i).getSenderFullName());
         message_sending_date.setText(messageArray.get(i).getSentOnDate().getDay() + "/" +
                 messageArray.get(i).getSentOnDate().getMonth() + "/" +
                 messageArray.get(i).getSentOnDate().getYear());

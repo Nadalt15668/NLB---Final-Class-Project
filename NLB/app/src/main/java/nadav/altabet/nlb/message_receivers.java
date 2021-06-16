@@ -31,6 +31,8 @@ public class message_receivers extends AppCompatActivity {
     private EditText searchLineEdit, message_headline, message_body;
     private ArrayList<User> usersArray = new ArrayList<>();
     private ArrayList<User> searchArray = new ArrayList<>();
+    private ArrayList<String> UIDkeysArray = new ArrayList<>();
+    private ArrayList<String> UIDkeysSearchArray = new ArrayList<>();
     private ArrayList<String> searchNameArray = new ArrayList<>();
     private ArrayList<String> userNameArray = new ArrayList<>();
     private AlertDialog dialog;
@@ -64,6 +66,7 @@ public class message_receivers extends AppCompatActivity {
                         {
                             searchArray.add(usersArray.get(i));
                             searchNameArray.add(usersArray.get(i).getFirst_name() + " " + usersArray.get(i).getLast_name());
+                            UIDkeysSearchArray.add(UIDkeysArray.get(i));
                         }
                     }
                     isSearching = true;
@@ -100,6 +103,7 @@ public class message_receivers extends AppCompatActivity {
                     {
                         usersArray.add(user);
                         userNameArray.add(user.getFirst_name() + " " + user.getLast_name());
+                        UIDkeysArray.add(userDatabase.getKey());
                     }
                 }
                 ArrayAdapter arrayAdapter = new ArrayAdapter(message_receivers.this, android.R.layout.simple_list_item_1, userNameArray);
@@ -127,13 +131,21 @@ public class message_receivers extends AppCompatActivity {
                                 if (!message_headline.getText().toString().equals("") && !message_body.getText().toString().equals(""))
                                 {
                                     User receiver;
+                                    String messageUID;
                                     if (isSearching)
+                                    {
                                         receiver = searchArray.get(position);
+                                        messageUID = messagesReference.child(UIDkeysSearchArray.get(position)).push().getKey();
+                                        messagesReference = messagesReference.child(UIDkeysSearchArray.get(position));
+                                    }
                                     else
+                                    {
                                         receiver = usersArray.get(position);
-                                    String messageUID = messagesReference.child(receiver.getFirst_name() + " " + receiver.getLast_name()).push().getKey();
-                                    Message message = new Message(messageUID, receiver.getEmail(), message_body.getText().toString(), message_headline.getText().toString());
-                                    reference = messagesReference.child(receiver.getFirst_name() + " " + receiver.getLast_name()).child(messageUID).setValue(message);
+                                        messageUID = messagesReference.child(UIDkeysArray.get(position)).push().getKey();
+                                        messagesReference = messagesReference.child(UIDkeysArray.get(position));
+                                    }
+                                    Message message = new Message(messageUID, receiver.getFirst_name() + " " + receiver.getLast_name(), message_body.getText().toString(), message_headline.getText().toString());
+                                    reference = messagesReference.child(messageUID).setValue(message);
                                     Toast.makeText(message_receivers.this, "ההודעה נשלחה בהצלחה!", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(message_receivers.this, my_messages.class));
                                     dialog.dismiss();
